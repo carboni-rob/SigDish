@@ -8,6 +8,7 @@ import { ImagePicker, ImageManipulator } from 'expo';
 
 import React, { Component } from 'react';
 import {
+  Alert,
   View,
   Text,
   TouchableOpacity,
@@ -26,10 +27,10 @@ class Post extends Component {
       image: 'https://firebasestorage.googleapis.com/v0/b/sigdish-d24b1.appspot.com/o/src%2Fplaceholder.jpg?alt=media&token=160573f1-0522-4897-a4d4-589ad425c680',
       image64: '',
       place: {
-        name: 'Restaurant name',
+        name: '',
         lat:'',
         lng:'',
-        address: 'Restaurant address'
+        address: ''
       },
       rating: '',
       rating1: false,
@@ -65,21 +66,6 @@ class Post extends Component {
     )
   }
 
-  /*photo(){
-    var state = this
-    ImagePicker.showImagePicker({}, (response) => {
-      if (!response.didCancel) {
-        const source = {uri: response.uri.replace('file://', ''), isStatic: true};
-        ImageResizer.createResizedImage(source.uri, 500, 500, 'JPEG', 60).then((resizedImageUri) => {
-            state.setState({ imageBlob: resizedImageUri });
-            state.setState({ image: resizedImageUri.uri });
-        }).catch((err) => {
-          console.log(err)
-        });
-      }
-    });
-  }*/
-
   photo = async () => {
     let result = await ImagePicker.launchCameraAsync({
       base64: true
@@ -98,6 +84,51 @@ class Post extends Component {
 
   post = async() => {
 
+    //Checks for completed fields
+    if (this.state.dishname != '') {
+      if (this.state.image64 != '') {
+        if (this.state.place.name != '') {
+          if (this.state.rating != '') {
+            if (this.state.description != '') {
+              this.confirmEntry();
+            } else {
+              Alert.alert(
+                'Missing description',
+                'Would you like to add one?',
+                [
+                  {text: 'Yes', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                  {text: 'No, publish without', onPress: () => this.confirmEntry()},
+                ],
+                { cancelable: true }
+              );
+            }  
+          } else {
+            Alert.alert('Please select a rating for the dish');
+          }
+        } else {
+          Alert.alert('Please select the name of the Restaurant');
+        }
+      } else {
+        Alert.alert('Please provide a photo of the dish');
+      }
+    } else {
+      Alert.alert('Please provide a name for the dish');
+    }
+  }
+
+  confirmEntry() {
+    Alert.alert(
+      'Please confirm',
+      'Publish this dish now?',
+      [
+        {text: 'Not now', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        {text: 'Yes', onPress: () => this.pushContent()},
+      ],
+      { cancelable: true }
+    );
+  }
+
+  pushContent = async() => {
     firebase.database().ref('food').push({
       dish: this.state.dishname,
       image: this.state.image64,
@@ -105,7 +136,6 @@ class Post extends Component {
       description: this.state.description,
       rating: this.state.rating
     });
-
     this.props.navigation.navigate('HomeScreen');
   }
 
