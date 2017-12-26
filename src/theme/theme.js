@@ -39,7 +39,7 @@ var styles = StyleSheet.create({
   },
   descInput: { 
     width: 300,
-    height: 30,
+    height: 40,
     fontFamily: "GillSans-Light",
     borderColor: '#000',
     borderWidth: 1,

@@ -1,7 +1,7 @@
 import firebase from './config/firebase';
 import styles from './theme/theme.js';
 import { StackNavigator } from 'react-navigation';
-
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import React, { Component } from 'react';
 import {
 	View,
