@@ -1,0 +1,14 @@
+{
+  "main": "node_modules/expo/AppEntry.js",
+  "private": true,
+  "dependencies": {
+    "expo": "^24.0.2",
+    "firebase": "^4.8.1",
+    "react": "16.0.0",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-24.0.0.tar.gz",
+    "react-native-fetch-blob": "^0.10.8",
+    "react-native-image-picker": "^0.26.7",
+    "react-native-image-resizer": "^1.0.0",
+    "react-navigation": "^1.0.0-beta.22"
+  }
+}
