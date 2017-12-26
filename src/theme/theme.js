@@ -39,10 +39,11 @@ var styles = StyleSheet.create({
   },
   descInput: { 
     width: 300,
-    height: 50,
+    height: 30,
     fontFamily: "GillSans-Light",
     borderColor: '#000',
     borderWidth: 1,
+    margin: 10,
     padding: 10
   },
   line: {

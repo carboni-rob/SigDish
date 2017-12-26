@@ -5,6 +5,7 @@ import Dimensions from 'Dimensions';
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
 import { ImagePicker, ImageManipulator } from 'expo';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import React, { Component } from 'react';
 import {
@@ -189,7 +190,7 @@ class Post extends Component {
 
   render() {
     return (
-      <View >
+      <KeyboardAwareScrollView>
         <Header title="Post" left={this.back.bind(this)} leftText={'Back'}/>
         <View style={ styles.center }>
           <TextInput
@@ -256,19 +257,18 @@ class Post extends Component {
               <Text>I love it</Text>
             </TouchableOpacity>
           </View>
-          <KeyboardAvoidingView>
+          <View>
             <TextInput
               placeholder='Write a short description'
               style={ styles.descInput }
               onChangeText={(text) => this.setState({description: text})}
-              multiline={true}
             />
-          </KeyboardAvoidingView>
+          </View>
           <TouchableOpacity style={ styles.btn } onPress={this.post.bind(this)}>
             <Text style={ styles.text }>Post</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </KeyboardAwareScrollView>
     );
   }
 }
