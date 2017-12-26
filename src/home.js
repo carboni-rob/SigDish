@@ -11,7 +11,8 @@ import {
 	Text,
 	ScrollView,
 	Image,
-	TouchableOpacity
+	TouchableOpacity,
+	ActivityIndicator
 } from 'react-native';
 
 
@@ -19,7 +20,8 @@ class Home extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			food: []
+			food: [],
+			isLoading: true
 		}
 	}
 
@@ -32,6 +34,7 @@ class Home extends Component {
 	}
 
 	getFood() {
+		console.log(this.state.isLoading);
 		firebase.database().ref('food').on('value', (snap) => {
 			var items = [];
 			snap.forEach((child) => {
@@ -39,7 +42,8 @@ class Home extends Component {
 				items.push(item);
 			});
 			items.reverse();
-			this.setState({ food: items });
+			this.setState({ food: items, isLoading: false });
+			console.log(this.state.isLoading);
 		});
 	}
 
@@ -58,6 +62,7 @@ class Home extends Component {
 		return(
 			<View style={styles.container}>
 				<Header title="SigDish_V0.01" left={this.left.bind(this)} leftText={"Post +"} />
+				{this.state.isLoading && <ActivityIndicator size="large" color="#c9c9c9" />}
 				<ScrollView>
 					{Object.keys(this.state.food || {}).map((key) => {
 						return(
