@@ -20,6 +20,7 @@ import {
 } from 'react-native';
 
 class Post extends Component {
+
   constructor(props) {
     super(props);
     this.state = { 
@@ -67,8 +68,30 @@ class Post extends Component {
     )
   }
 
-  photo = async () => {
+  chooseImgSource() {
+    Alert.alert(
+      'Add a picture',
+      'Would you like take a new picture or choose one from your albums?',
+      [
+        {text: 'Take a Picture', onPress: () => this.takePhoto()},
+        {text: 'Choose from Album', onPress: () => this.choosePhoto()},
+      ],
+      { cancelable: true }
+    );
+  }
+
+  takePhoto = async () => {
     let result = await ImagePicker.launchCameraAsync({
+      base64: true
+    });
+
+    if (!result.cancelled) {
+      this.resizeImg(result);
+    }
+  }
+
+  choosePhoto = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
       base64: true
     });
 
@@ -198,7 +221,7 @@ class Post extends Component {
             style={ styles.textInput }
             onChangeText={(text) => this.setState({dishname: text})}
           />
-          <TouchableOpacity onPress={this.photo.bind(this)}>
+          <TouchableOpacity onPress={this.chooseImgSource.bind(this)}>
             <Image
               source={{uri: this.state.image}}
               style={{ width: deviceWidth, height: (deviceWidth*.5)}}
@@ -227,7 +250,6 @@ class Post extends Component {
           <View
             style={{
               width: deviceWidth,
-              //padding: 20,
               flexDirection: 'row',
               justifyContent: 'space-between'
             }}

@@ -4,6 +4,7 @@ const {StyleSheet} = React
 var styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#eee'
   },
   center: {
     justifyContent: 'center',
@@ -86,7 +87,50 @@ var styles = StyleSheet.create({
     position: 'absolute',
     top: 30,
     left: 15
+  },
+  cardView: {
+    flexDirection: 'row',
+    margin: 5
+  },
+  cardImg: {
+    flex: 1,
+    borderRadius: 10,
+    width: 100,
+    height: 100,
+  },
+  cardDetails: {
+    flex: 2,
+    padding: 5,
+    borderBottomWidth: 1,
+    borderColor: '#d1d1d1'
+  },
+  cardDetailsTop: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  cardDetailsBottom: {
+    flex: 2
+  },
+  cardFoodName: {
+    flex: 2,
+    color: '#4a79c4',
+    fontWeight: 'bold',
+    fontSize: 16,
+    paddingRight: 5
+  },
+  cardFoodDate: {
+    flex: 1,
+    color: '#c6c6c6',
+    textAlign: 'right'
+  },
+  cardFoodPlace: {
+  },
+  cardFoodDescription: {
+    color: '#c6c6c6',
+    textAlign: 'justify'
   }
+
 })
 
 module.exports = styles

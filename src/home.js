@@ -1,5 +1,6 @@
 import firebase from './config/firebase';
 import Header from './components/header';
+import FoodCard from './components/foodCard';
 import styles from './theme/theme.js';
 import Dimensions from 'Dimensions';
 var deviceWidth = Dimensions.get('window').width;
@@ -43,7 +44,6 @@ class Home extends Component {
 			});
 			items.reverse();
 			this.setState({ food: items, isLoading: false });
-			console.log(this.state.isLoading);
 		});
 	}
 
@@ -66,19 +66,13 @@ class Home extends Component {
 				<ScrollView>
 					{Object.keys(this.state.food || {}).map((key) => {
 						return(
-							<View key={key}>
-								<Text style={styles.text}>{this.state.food[key].dish}</Text>
-								<Image
-									source={{uri: 'data:image/jpeg;base64,'+this.state.food[key].image}}
-									style={{ width: deviceWidth, height: (deviceWidth*.5)}}
-								/>
-								<View style={styles.homeRating}>
-									<Text>{this.state.food[key].rating}</Text>
-								</View>
-								<Text style={styles.text}>{this.state.food[key].place}</Text>
-								<Text style={styles.text}>{this.state.food[key].description}</Text>
-								<View style={styles.line} />
-							</View>
+							<FoodCard
+								key={key}
+								foodName={this.state.food[key].dish}
+								foodPlace={this.state.food[key].place}
+								image={this.state.food[key].image}
+								description={this.state.food[key].description}
+							/>
 						)
 					})}
 				</ScrollView>
