@@ -11,7 +11,7 @@ var styles = StyleSheet.create({
     alignItems: 'center',
   },
   left: {
-    justifyContent: 'flex-start',
+    justifyContent: 'flex-start'
   },
   right: {
     justifyContent: 'flex-end',
@@ -26,6 +26,13 @@ var styles = StyleSheet.create({
   text: {
     textAlign: 'center',
     fontFamily: "GillSans-Light"
+  },
+  headerText: {
+    textAlign: 'center',
+    fontFamily: "GillSans-Light",
+    color: '#4a79c4',
+    fontWeight: 'bold',
+    fontSize: 16
   },
   textBig: {
     textAlign: 'center',

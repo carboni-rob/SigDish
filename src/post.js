@@ -224,7 +224,7 @@ class Post extends Component {
           <TouchableOpacity onPress={this.chooseImgSource.bind(this)}>
             <Image
               source={{uri: this.state.image}}
-              style={{ width: deviceWidth, height: (deviceWidth*.5)}}
+              style={{ width: deviceWidth, height: (deviceWidth*.5), borderRadius: 10}}
             />
           </TouchableOpacity>
           <View>

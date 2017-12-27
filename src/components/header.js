@@ -13,7 +13,7 @@ class Header extends Component {
 			<View>
 				<View style={styles.header}>
 					<TouchableOpacity onPress={this.props.left} style={styles.left} >
-						<Text style={styles.text}>{this.props.leftText}</Text>
+						<Text style={styles.headerText}>{this.props.leftText}</Text>
 					</TouchableOpacity>
 					<Text style={styles.text}>{this.props.title}</Text>
 					<TouchableOpacity style={styles.right} >
