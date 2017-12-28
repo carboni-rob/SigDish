@@ -6,6 +6,7 @@ const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
 import { ImagePicker, ImageManipulator } from 'expo';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import Modal from 'react-native-modal';
 
 import React, { Component } from 'react';
 import {
@@ -24,6 +25,7 @@ class Post extends Component {
   constructor(props) {
     super(props);
     this.state = { 
+      isModalVisible: false,
       description: '',
       dishname: '',
       image: 'https://firebasestorage.googleapis.com/v0/b/sigdish-d24b1.appspot.com/o/src%2Fplaceholder.jpg?alt=media&token=160573f1-0522-4897-a4d4-589ad425c680',
@@ -211,6 +213,14 @@ class Post extends Component {
     });
   }
 
+  chooseRestaurant(place) {
+    this.setState({place: test});
+                      this._toggleModal;
+  }
+
+  _toggleModal = () => this.setState({ isModalVisible: !this.state.isModalVisible });
+
+
   render() {
     return (
       <KeyboardAwareScrollView>
@@ -231,22 +241,31 @@ class Post extends Component {
             <Text style={ styles.text }>{this.state.place.name}</Text>
             <Text style={ styles.text }>{this.state.place.address}</Text>
           </View>
-          <ScrollView style={{ height: deviceHeight*0.2}} >
-          {Object.keys(this.state.nearby).map((key) => {
-            var test = {
-              address: this.state.nearby[key].vicinity,
-              lat: this.state.nearby[key].geometry.location.lat,
-              lng: this.state.nearby[key].geometry.location.lng,
-              name: this.state.nearby[key].name
-            }
-            return (
-              <TouchableOpacity key={key} style={{padding: 10}} onPress={ (place) =>  this.setState({place: test}) }>
-                <Text style={styles.text}>{this.state.nearby[key].name}</Text>
-                <Text style={styles.text}>{this.state.nearby[key].vicinity}</Text>
-              </TouchableOpacity>
-            )
-          })}
-          </ScrollView>
+          <TouchableOpacity onPress={this._toggleModal} style={ styles.btn }>
+            <Text style={ styles.text }>Choose a Restaurant</Text>
+          </TouchableOpacity>
+          <Modal isVisible={this.state.isModalVisible} style={styles.Modal}>
+            <ScrollView style={{ height: deviceHeight*0.2}} >
+              {Object.keys(this.state.nearby).map((key) => {
+                var test = {
+                  address: this.state.nearby[key].vicinity,
+                  lat: this.state.nearby[key].geometry.location.lat,
+                  lng: this.state.nearby[key].geometry.location.lng,
+                  name: this.state.nearby[key].name
+                }
+                return (
+                  <TouchableOpacity
+                    key={key}
+                    style={{padding: 20}}
+                    onPress={ (place) => this.setState({place: test, isModalVisible: false}) }
+                  >
+                    <Text style={styles.text}>{this.state.nearby[key].name}</Text>
+                    <Text style={styles.text}>{this.state.nearby[key].vicinity}</Text>
+                  </TouchableOpacity>
+                )
+              })}
+            </ScrollView>
+          </Modal>
           <View
             style={{
               width: deviceWidth,

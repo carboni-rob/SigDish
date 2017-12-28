@@ -136,6 +136,9 @@ var styles = StyleSheet.create({
   cardFoodDescription: {
     color: '#c6c6c6',
     textAlign: 'justify'
+  },
+  Modal: {
+    backgroundColor: '#fff'
   }
 
 })
