@@ -7,6 +7,7 @@ const deviceHeight = Dimensions.get('window').height;
 import { ImagePicker, ImageManipulator } from 'expo';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Modal from 'react-native-modal';
+import moment from 'moment';
 
 import React, { Component } from 'react';
 import {
@@ -25,6 +26,7 @@ class Post extends Component {
   constructor(props) {
     super(props);
     this.state = { 
+      date: '',
       isModalVisible: false,
       description: '',
       dishname: '',
@@ -156,6 +158,7 @@ class Post extends Component {
 
   pushContent = async() => {
     firebase.database().ref('food').push({
+      date: moment().format('DD[/]MM[/]YY'),
       dish: this.state.dishname,
       image: this.state.image64,
       place: this.state.place.name,
@@ -244,7 +247,7 @@ class Post extends Component {
           <TouchableOpacity onPress={this._toggleModal} style={ styles.btn }>
             <Text style={ styles.text }>Choose a Restaurant</Text>
           </TouchableOpacity>
-          <Modal isVisible={this.state.isModalVisible} style={styles.Modal}>
+          <Modal isVisible={this.state.isModalVisible} style={styles.modal}>
             <ScrollView style={{ height: deviceHeight*0.2}} >
               {Object.keys(this.state.nearby).map((key) => {
                 var test = {

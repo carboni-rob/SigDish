@@ -35,7 +35,6 @@ class Home extends Component {
 	}
 
 	getFood() {
-		console.log(this.state.isLoading);
 		firebase.database().ref('food').on('value', (snap) => {
 			var items = [];
 			snap.forEach((child) => {
@@ -51,23 +50,17 @@ class Home extends Component {
 		this.props.navigation.navigate('Post');
 	}
 
-	map() {
-		this.self.props.navigator.push({
-			component: map,
-			passProps: {place: this.place.place }
-		});
-	}
-
 	render() {
 		return(
 			<View style={styles.container}>
 				<Header title="SigDish_V0.01" left={this.left.bind(this)} leftText={"Post +"} />
-				{this.state.isLoading && <ActivityIndicator size="large" color="#c9c9c9" />}
+				{this.state.isLoading && <ActivityIndicator size="large" color="#4a79c4" />}
 				<ScrollView>
 					{Object.keys(this.state.food || {}).map((key) => {
 						return(
 							<FoodCard
 								key={key}
+								date={this.state.food[key].date}
 								foodName={this.state.food[key].dish}
 								foodPlace={this.state.food[key].place}
 								image={this.state.food[key].image}

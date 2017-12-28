@@ -28,7 +28,7 @@ class FoodCard extends Component {
 							ellipsizeMode='tail'
 							style={styles.cardFoodDate}
 						>
-							25/12/17
+							{this.props.date}
 						</Text>
 					</View>
 					<View style={styles.cardDetailsBottom}>

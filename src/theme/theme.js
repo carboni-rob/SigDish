@@ -137,7 +137,7 @@ var styles = StyleSheet.create({
     color: '#c6c6c6',
     textAlign: 'justify'
   },
-  Modal: {
+  modal: {
     backgroundColor: '#fff'
   }
 
