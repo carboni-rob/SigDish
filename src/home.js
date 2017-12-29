@@ -54,7 +54,7 @@ class Home extends Component {
 		return(
 			<View style={styles.container}>
 				<Header title="SigDish_V0.01" left={this.left.bind(this)} leftText={"Post +"} />
-				{this.state.isLoading && <ActivityIndicator size="large" color="#4a79c4" />}
+				{this.state.isLoading && <ActivityIndicator size="large" color="#4a79c4" style={{marginTop: 50}}/>}
 				<ScrollView>
 					{Object.keys(this.state.food || {}).map((key) => {
 						return(

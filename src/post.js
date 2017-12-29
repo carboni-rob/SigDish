@@ -30,7 +30,8 @@ class Post extends Component {
       isModalVisible: false,
       description: '',
       dishname: '',
-      image: 'https://firebasestorage.googleapis.com/v0/b/sigdish-d24b1.appspot.com/o/src%2Fplaceholder.jpg?alt=media&token=160573f1-0522-4897-a4d4-589ad425c680',
+      image: '',
+      //image: 'https://firebasestorage.googleapis.com/v0/b/sigdish-d24b1.appspot.com/o/src%2Fplaceholder.jpg?alt=media&token=160573f1-0522-4897-a4d4-589ad425c680',
       image64: '',
       place: {
         name: '',
@@ -223,8 +224,13 @@ class Post extends Component {
 
   _toggleModal = () => this.setState({ isModalVisible: !this.state.isModalVisible });
 
-
   render() {
+    {if (this.state.image == '') {
+      var img = require('./img/placeholder.jpg');
+    } else {
+      var img = {uri: this.state.image};
+    }
+    }
     return (
       <KeyboardAwareScrollView>
         <Header title="Post" left={this.back.bind(this)} leftText={'Back'}/>
@@ -236,7 +242,7 @@ class Post extends Component {
           />
           <TouchableOpacity onPress={this.chooseImgSource.bind(this)}>
             <Image
-              source={{uri: this.state.image}}
+              source={img}
               style={{ width: deviceWidth, height: (deviceWidth*.5), borderRadius: 10}}
             />
           </TouchableOpacity>
