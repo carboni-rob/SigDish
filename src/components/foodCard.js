@@ -8,11 +8,37 @@ import styles from '../theme/theme.js';
 
 class FoodCard extends Component {
 	render() {
+		
+		var icon;
+		switch(this.props.rating) {
+		    case 1:
+		        icon = require('../img/emoji-dontlike.png');
+		        break;
+		    case 2:
+		        icon = require('../img/emoji-notsure.png');
+		        break;
+		    case 3:
+		        icon = require('../img/emoji-like.png');
+		        break;
+		    case 4:
+		        icon = require('../img/emoji-love.png');
+		}
+
 		return(
 			<View style={styles.cardView}>
 				<Image
 					source={{uri: 'data:image/jpeg;base64,'+this.props.image}}
 					style={styles.cardImg}
+				/>
+				<Image
+					source={require('../img/emoji-love.png')}
+					style={{
+						width: 24,
+						height: 24,
+						position: 'absolute',
+						top: 0,
+						left: 75
+					}}
 				/>
 				<View style={styles.cardDetails}>
 					<View style={styles.cardDetailsTop}>

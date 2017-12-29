@@ -60,6 +60,7 @@ class Home extends Component {
 						return(
 							<FoodCard
 								key={key}
+								rating={this.state.food[key].rating}
 								date={this.state.food[key].date}
 								foodName={this.state.food[key].dish}
 								foodPlace={this.state.food[key].place}

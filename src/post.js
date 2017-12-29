@@ -8,6 +8,7 @@ import { ImagePicker, ImageManipulator } from 'expo';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Modal from 'react-native-modal';
 import moment from 'moment';
+import { Entypo } from '@expo/vector-icons';
 
 import React, { Component } from 'react';
 import {
@@ -31,7 +32,6 @@ class Post extends Component {
       description: '',
       dishname: '',
       image: '',
-      //image: 'https://firebasestorage.googleapis.com/v0/b/sigdish-d24b1.appspot.com/o/src%2Fplaceholder.jpg?alt=media&token=160573f1-0522-4897-a4d4-589ad425c680',
       image64: '',
       place: {
         name: '',
@@ -39,7 +39,7 @@ class Post extends Component {
         lng:'',
         address: ''
       },
-      rating: '',
+      rating: 0,
       rating1: false,
       rating2: false,
       rating3: false,
@@ -62,7 +62,6 @@ class Post extends Component {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const coords = position.coords.latitude + ',' + position.coords.longitude
-        //const coords = '50.979943,-3.226985'
         const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + coords + '&radius=500&type=restaurant&key=AIzaSyCO7j-QXjV5zJwmKqkdVPoXDyv4SPOX7fU'
         fetch(url, {method: "GET"})
           .then((response) => response.json())
@@ -176,7 +175,7 @@ class Post extends Component {
   chooseRating1() { 
     //resets active state for all buttons to false
     this.setState({
-      rating: 'I love it',
+      rating: 4,
       rating1: true,
       rating2: false,
       rating3: false,
@@ -187,7 +186,7 @@ class Post extends Component {
   chooseRating2() { 
     //resets active state for all buttons to false
     this.setState({
-      rating: 'I like it',
+      rating: 3,
       rating1: false,
       rating2: true,
       rating3: false,
@@ -198,7 +197,7 @@ class Post extends Component {
   chooseRating3() { 
     //resets active state for all buttons to false
     this.setState({
-      rating: 'Not sure',
+      rating: 2,
       rating1: false,
       rating2: false,
       rating3: true,
@@ -209,7 +208,7 @@ class Post extends Component {
   chooseRating4() { 
     //resets active state for all buttons to false
     this.setState({
-      rating: "Don't like it",
+      rating: 1,
       rating1: false,
       rating2: false,
       rating3: false,
@@ -232,7 +231,7 @@ class Post extends Component {
     }
     }
     return (
-      <KeyboardAwareScrollView>
+      <KeyboardAwareScrollView style={styles.container}>
         <Header title="Post" left={this.back.bind(this)} leftText={'Back'}/>
         <View style={ styles.center }>
           <TextInput
@@ -279,32 +278,32 @@ class Post extends Component {
             style={{
               width: deviceWidth,
               flexDirection: 'row',
-              justifyContent: 'space-between'
+              justifyContent: 'space-around'
             }}
           >
             <TouchableOpacity
               onPress={this.chooseRating4.bind(this)}
               style={ [styles.rateBtnOff, this.state.rating4 && styles.rateBtnOn]}
             >
-              <Text>Don't like it</Text>
+              <Image source={require('./img/emoji-dontlike.png')} style={{width: 32, height: 32}}/>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={this.chooseRating3.bind(this)}
               style={ [styles.rateBtnOff, this.state.rating3 && styles.rateBtnOn]}
             >
-              <Text>Not sure</Text>
+              <Image source={require('./img/emoji-notsure.png')} style={{width: 32, height: 32}}/>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={this.chooseRating2.bind(this)}
               style={ [styles.rateBtnOff, this.state.rating2 && styles.rateBtnOn]}
             >
-              <Text>I like it</Text>
+              <Image source={require('./img/emoji-like.png')} style={{width: 32, height: 32}}/>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={this.chooseRating1.bind(this)}
               style={ [styles.rateBtnOff, this.state.rating1 && styles.rateBtnOn]}
             >
-              <Text>I love it</Text>
+              <Image source={require('./img/emoji-love.png')} style={{width: 32, height: 32}}/>
             </TouchableOpacity>
           </View>
           <View>

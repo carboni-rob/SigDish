@@ -77,13 +77,12 @@ var styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   rateBtnOff: {
-    borderColor: '#000',
-    borderWidth: 1,
-    padding: 10,
-    borderRadius: 10
+    padding: 10
   },
   rateBtnOn: {
-    backgroundColor: '#c9c9c9'
+    borderColor: '#000',
+    borderWidth: 1,
+    borderRadius: 10
   },
   homeRating: {
     borderColor: '#000',
