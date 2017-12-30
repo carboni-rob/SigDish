@@ -107,7 +107,7 @@ class Post extends Component {
   }
 
   resizeImg = async(result) => {
-    const resizedImg = await ImageManipulator.manipulate(result.uri, [{resize: {width: 500, height: 500}}], {base64: true});
+    const resizedImg = await ImageManipulator.manipulate(result.uri, [{resize: {width: 500}}], {base64: true});
     this.setState({ image: resizedImg.uri });
     this.setState({ image64: resizedImg.base64 });
   }
@@ -174,8 +174,7 @@ class Post extends Component {
     this.props.navigation.navigate('HomeScreen');
   }
 
-  chooseRating(index) { 
-    //resets active state for all buttons to false
+  chooseRating(index) {
     var thisRatingId = 'rating'+index;
     this.setState({
       rating: index,
@@ -185,7 +184,6 @@ class Post extends Component {
       rating4: false,
       [thisRatingId]: true
     });
-    console.log(this.state.rating);
   }
 
   chooseRestaurant(place) {

@@ -24,8 +24,6 @@ class RateIcon extends Component {
 		        iconImg = require('../img/emoji-love.png');
 		};
 
-		var isSelected = this.props.active;
-
 		return(
 			<TouchableOpacity
 	            onPress={this.props.selected}
