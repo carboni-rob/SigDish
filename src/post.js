@@ -1,5 +1,6 @@
 import firebase from './config/firebase';
 import Header from './components/header';
+import RateIcon from './components/rateIcon';
 import styles from './theme/theme.js';
 import Dimensions from 'Dimensions';
 const deviceWidth = Dimensions.get('window').width;
@@ -26,6 +27,7 @@ class Post extends Component {
 
   constructor(props) {
     super(props);
+    this.chooseRating = this.chooseRating.bind(this);
     this.state = { 
       date: '',
       isModalVisible: false,
@@ -116,7 +118,7 @@ class Post extends Component {
     if (this.state.dishname != '') {
       if (this.state.image64 != '') {
         if (this.state.place.name != '') {
-          if (this.state.rating != '') {
+          if (this.state.rating != 0) {
             if (this.state.description != '') {
               this.confirmEntry();
             } else {
@@ -172,53 +174,23 @@ class Post extends Component {
     this.props.navigation.navigate('HomeScreen');
   }
 
-  chooseRating1() { 
+  chooseRating(index) { 
     //resets active state for all buttons to false
+    var thisRatingId = 'rating'+index;
     this.setState({
-      rating: 4,
-      rating1: true,
-      rating2: false,
-      rating3: false,
-      rating4: false,
-    });
-  }
-
-  chooseRating2() { 
-    //resets active state for all buttons to false
-    this.setState({
-      rating: 3,
-      rating1: false,
-      rating2: true,
-      rating3: false,
-      rating4: false,
-    });
-  }
-
-  chooseRating3() { 
-    //resets active state for all buttons to false
-    this.setState({
-      rating: 2,
-      rating1: false,
-      rating2: false,
-      rating3: true,
-      rating4: false,
-    });
-  }
-
-  chooseRating4() { 
-    //resets active state for all buttons to false
-    this.setState({
-      rating: 1,
+      rating: index,
       rating1: false,
       rating2: false,
       rating3: false,
-      rating4: true,
+      rating4: false,
+      [thisRatingId]: true
     });
+    console.log(this.state.rating);
   }
 
   chooseRestaurant(place) {
     this.setState({place: test});
-                      this._toggleModal;
+    this._toggleModal;
   }
 
   _toggleModal = () => this.setState({ isModalVisible: !this.state.isModalVisible });
@@ -281,30 +253,10 @@ class Post extends Component {
               justifyContent: 'space-around'
             }}
           >
-            <TouchableOpacity
-              onPress={this.chooseRating4.bind(this)}
-              style={ [styles.rateBtnOff, this.state.rating4 && styles.rateBtnOn]}
-            >
-              <Image source={require('./img/emoji-dontlike.png')} style={{width: 32, height: 32}}/>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={this.chooseRating3.bind(this)}
-              style={ [styles.rateBtnOff, this.state.rating3 && styles.rateBtnOn]}
-            >
-              <Image source={require('./img/emoji-notsure.png')} style={{width: 32, height: 32}}/>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={this.chooseRating2.bind(this)}
-              style={ [styles.rateBtnOff, this.state.rating2 && styles.rateBtnOn]}
-            >
-              <Image source={require('./img/emoji-like.png')} style={{width: 32, height: 32}}/>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={this.chooseRating1.bind(this)}
-              style={ [styles.rateBtnOff, this.state.rating1 && styles.rateBtnOn]}
-            >
-              <Image source={require('./img/emoji-love.png')} style={{width: 32, height: 32}}/>
-            </TouchableOpacity>
+            <RateIcon rating={1} selected={() => this.chooseRating(1)} active={this.state.rating1}/>
+            <RateIcon rating={2} selected={() => this.chooseRating(2)} active={this.state.rating2}/>
+            <RateIcon rating={3} selected={() => this.chooseRating(3)} active={this.state.rating3}/>
+            <RateIcon rating={4} selected={() => this.chooseRating(4)} active={this.state.rating4}/>
           </View>
           <View>
             <TextInput

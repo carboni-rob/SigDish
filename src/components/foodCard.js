@@ -31,7 +31,7 @@ class FoodCard extends Component {
 					style={styles.cardImg}
 				/>
 				<Image
-					source={require('../img/emoji-love.png')}
+					source={icon}
 					style={{
 						width: 24,
 						height: 24,
