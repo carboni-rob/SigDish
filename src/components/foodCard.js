@@ -4,6 +4,7 @@ import {
 	Text,
 	Image
 } from 'react-native';
+import Swipeout from 'react-native-swipeout';
 import styles from '../theme/theme.js';
 
 class FoodCard extends Component {
@@ -24,7 +25,19 @@ class FoodCard extends Component {
 		        icon = require('../img/emoji-love.png');
 		}
 
+		var swipeoutBtns = [
+		  {
+		    type: 'delete',
+		    text: 'Delete',
+		    backgroundColor: '#dd2727'
+		  }
+		]
+
 		return(
+			<Swipeout
+				right={swipeoutBtns}
+				backgroundColor='#fff'
+			>
 			<View style={styles.cardView}>
 				<Image
 					source={{uri: 'data:image/jpeg;base64,'+this.props.image}}
@@ -75,6 +88,7 @@ class FoodCard extends Component {
 					</View>
 				</View>
 			</View>
+			</Swipeout>
 		);
 	};
 }

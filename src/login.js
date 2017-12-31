@@ -9,7 +9,8 @@ import {
 	TextInput,
 	Button,
 	Alert,
-	TouchableOpacity
+	TouchableOpacity,
+	Switch
 } from 'react-native';
 
 class Login extends Component {
@@ -17,7 +18,8 @@ class Login extends Component {
 		super(props);
 		this.state = {
 			email: '',
-			password: ''
+			password: '',
+			stayLogged: false
 		};
 	}
 
@@ -27,20 +29,41 @@ class Login extends Component {
 
 	login() {
 		var state = this;
-		firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(function() {
-			//Login successful
-			state.props.navigation.navigate('HomeScreen');
-		}, function(error) {
-			//Login error
-			Alert.alert(error.message)
-		});
+		if (this.state.stayLogged == false) {
+			firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+			.then(function() {
+				//Login successful
+				state.props.navigation.navigate('HomeScreen');
+			}, function(error) {
+				//Login error
+				Alert.alert(error.message)
+			});
+		} else {
+			firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+			  .then(function() {
+			    return firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+			    .then(function() {
+					//Login successful
+					state.props.navigation.navigate('HomeScreen');
+				})
+			  })
+			  .catch(function(error) {
+				//Login error
+			    Alert.alert(error.message)
+			  });
+		}
 	}
 
 	register() {
 		this.props.navigation.navigate('Register');
 	}
 
+	goHome() {
+		this.props.navigation.navigate('HomeScreen');
+	}
+
 	render() {
+
 		return (
 			<View style={[styles.container, styles.center]}>
 				<Text style={ styles.logo }>SigDish_V0.01</Text>
@@ -60,6 +83,19 @@ class Login extends Component {
 					value={this.state.password}
 				/>
 				<View style={styles.line} />
+				<View 
+					style={{
+						flexDirection: 'row',
+						margin: 10,
+						alignItems: 'center'
+					}}
+				>
+					<Switch
+						value={this.state.stayLogged}
+						onValueChange={() => this.setState({ stayLogged: !this.state.stayLogged })}
+					/>
+					<Text> Remember Me</Text>
+				</View>
 				<TouchableOpacity
 					style={styles.btn}
 					onPress={this.login.bind(this)}>
