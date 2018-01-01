@@ -1,4 +1,5 @@
-import firebase from './config/firebase';
+import firebaseApp from './config/firebase';
+import * as firebase from 'firebase';
 import styles from './theme/theme.js';
 import { StackNavigator } from 'react-navigation';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -28,28 +29,23 @@ class Login extends Component {
 	};
 
 	login() {
-		var state = this;
-		if (this.state.stayLogged == false) {
-			firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+		var propsRef = this.props;
+		var stateRef = this.state;
+		if (stateRef.stayLogged == true) {
+			firebaseApp.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
 			.then(function() {
-				//Login successful
-				state.props.navigation.navigate('HomeScreen');
+				propsRef.navigation.navigate('HomeScreen');
 			}, function(error) {
 				//Login error
 				Alert.alert(error.message)
 			});
 		} else {
-			firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-			  .then(function() {
-			    return firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-			    .then(function() {
-					//Login successful
-					state.props.navigation.navigate('HomeScreen');
-				})
-			  })
-			  .catch(function(error) {
-				//Login error
-			    Alert.alert(error.message)
+			firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE)
+				.then(function() {
+			    	return firebase.auth().signInWithEmailAndPassword(stateRef.email, stateRef.password)
+				    .then(function() {
+						propsRef.navigation.navigate('HomeScreen');
+					});
 			  });
 		}
 	}
@@ -63,7 +59,6 @@ class Login extends Component {
 	}
 
 	render() {
-
 		return (
 			<View style={[styles.container, styles.center]}>
 				<Text style={ styles.logo }>SigDish_V0.01</Text>
