@@ -4,7 +4,7 @@ const {StyleSheet} = React
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#eee'
+    backgroundColor: '#fff'
   },
   center: {
     justifyContent: 'center',

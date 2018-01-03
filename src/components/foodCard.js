@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import {
 	View,
 	Text,
-	Image
+	Image,
+	TouchableOpacity
 } from 'react-native';
-import Swipeout from 'react-native-swipeout';
 import styles from '../theme/theme.js';
 
 class FoodCard extends Component {
@@ -25,20 +25,11 @@ class FoodCard extends Component {
 		        icon = require('../img/emoji-love.png');
 		}
 
-		var swipeoutBtns = [
-		  {
-		    type: 'delete',
-		    text: 'Delete',
-		    backgroundColor: '#dd2727'
-		  }
-		]
-
 		return(
-			<Swipeout
-				right={swipeoutBtns}
-				backgroundColor='#fff'
+			<TouchableOpacity
+				style={styles.cardView}
+				onPress={this.props.select}
 			>
-			<View style={styles.cardView}>
 				<Image
 					source={{uri: 'data:image/jpeg;base64,'+this.props.image}}
 					style={styles.cardImg}
@@ -87,8 +78,7 @@ class FoodCard extends Component {
 						</Text>
 					</View>
 				</View>
-			</View>
-			</Swipeout>
+			</TouchableOpacity>
 		);
 	};
 }

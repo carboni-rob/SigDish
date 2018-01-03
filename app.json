@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "sigdish",
-    "description": "This project is really great.",
+    "description": "An app to create a food journal",
     "slug": "sigdish",
     "privacy": "public",
     "sdkVersion": "24.0.0",

@@ -51,21 +51,37 @@ class Home extends Component {
 	}
 
 	render() {
+		const { navigate } = this.props.navigation;
+		const stateRef = this.state;
 		return(
 			<View style={styles.container}>
 				<Header title="SigDish_V0.01" left={this.left.bind(this)} leftText={"Post +"} />
 				{this.state.isLoading && <ActivityIndicator size="large" color="#4a79c4" style={{marginTop: 50}}/>}
 				<ScrollView>
 					{Object.keys(this.state.food || {}).map((key) => {
+						const rating = stateRef.food[key].rating;
+						const date = stateRef.food[key].date;
+						const foodName = stateRef.food[key].dish;
+						const foodPlace = stateRef.food[key].place;
+						const image = stateRef.food[key].image;
+						const description = stateRef.food[key].description;
 						return(
 							<FoodCard
 								key={key}
-								rating={this.state.food[key].rating}
-								date={this.state.food[key].date}
-								foodName={this.state.food[key].dish}
-								foodPlace={this.state.food[key].place}
-								image={this.state.food[key].image}
-								description={this.state.food[key].description}
+								rating={rating}
+								date={date}
+								foodName={foodName}
+								foodPlace={foodPlace}
+								image={image}
+								description={description}
+								select={() => navigate('FoodPage', {
+									rating: rating,
+									date: date,
+									foodName: foodName,
+									foodPlace: foodPlace,
+									image: image,
+									description: description
+								})}
 							/>
 						)
 					})}

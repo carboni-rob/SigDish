@@ -3,8 +3,6 @@ import Header from './components/header';
 import RateIcon from './components/rateIcon';
 import styles from './theme/theme.js';
 import Dimensions from 'Dimensions';
-const deviceWidth = Dimensions.get('window').width;
-const deviceHeight = Dimensions.get('window').height;
 import { ImagePicker, ImageManipulator } from 'expo';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Modal from 'react-native-modal';
@@ -22,6 +20,9 @@ import {
   ScrollView,
   KeyboardAvoidingView
 } from 'react-native';
+
+const deviceWidth = Dimensions.get('window').width;
+const deviceHeight = Dimensions.get('window').height;
 
 class Post extends Component {
 
