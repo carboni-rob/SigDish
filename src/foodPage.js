@@ -53,7 +53,11 @@ class FoodPage extends Component {
 
 		return(
 			<View>
-				<Header title='SigDish_V0.01' left={this.back.bind(this)} leftText={'Back'}/>
+				<Header title='SigDish_V0.01'
+					left={this.back.bind(this)}
+					leftText={'Back'}
+					leftIcon={'back'}
+				/>
 				<View style={styles.foodPageContainer}>
 					<Text>{state.params.foodName}</Text>
 					<Image

@@ -11,7 +11,6 @@ import React, { Component } from 'react';
 import {
 	View,
 	Text,
-	ScrollView,
 	Image,
 	TouchableOpacity,
 	ActivityIndicator,
@@ -56,10 +55,6 @@ class Home extends Component {
 		this.props.navigation.navigate('Post');
 	}
 
-	filterByDish(filter) {
-		return this.state.filteredFood.dish.includes(filter);
-	}
-
 	render() {
 		const { navigate } = this.props.navigation;
 		const stateRef = this.state;
@@ -89,10 +84,11 @@ class Home extends Component {
 		      		</View>
 				}
 
-				{this.state.isLoading && <ActivityIndicator size="large" color="#4a79c4" style={{marginTop: 50}}/>}
+				{this.state.isLoading && <ActivityIndicator size="large" color="#4a79c4" style={{marginTop: deviceHeight/3}}/>}
 
 				<FlatList
-					data={this.state.food}
+					keyExtractor={item => item.image}
+					data={foodArray}
 					renderItem={({ item }) => (
 	          			<FoodCard
 							rating={item.rating}
@@ -101,6 +97,14 @@ class Home extends Component {
 							foodPlace={item.place}
 							image={item.image}
 							description={item.description}
+							select={() => navigate('FoodPage',{
+								rating: item.rating,
+								date: item.date,
+								foodName: item.dish,
+								foodPlace: item.place,
+								image: item.image,
+								description: item.description
+							})}
 						/>
 					)}
 				/>
