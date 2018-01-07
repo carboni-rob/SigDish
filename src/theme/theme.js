@@ -6,22 +6,36 @@ var styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff'
   },
+  foodPageContainer: {
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
+  ratingDetails: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
   center: {
     justifyContent: 'center',
     alignItems: 'center',
   },
-  left: {
-    justifyContent: 'flex-start'
+  headerLeft: {
+    flex: 1,
+    alignItems: 'flex-start'
   },
-  right: {
+  headerRight: {
+    flex: 1,
     justifyContent: 'flex-end',
+  },
+  headerCenter: {
+    flex: 1,
+    alignItems: 'center',
   },
   btn: {
     borderWidth: 1,
     padding: 10,
     margin: 10,
     borderRadius: 3,
-    width: 150, 
+    width: 150,
   },
   text: {
     textAlign: 'center',
@@ -39,13 +53,13 @@ var styles = StyleSheet.create({
     fontFamily: "GillSans-Light",
     fontSize: 18
   },
-  textInput: { 
+  textInput: {
     width: 150,
     height: 50,
     textAlign: 'center',
     fontFamily: "GillSans-Light",
   },
-  descInput: { 
+  descInput: {
     width: 300,
     height: 80,
     fontFamily: "GillSans-Light",

@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import Header from './components/header';
 import Dimensions from 'Dimensions';
+import styles from './theme/theme';
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -53,21 +54,22 @@ class FoodPage extends Component {
 		return(
 			<View>
 				<Header title='SigDish_V0.01' left={this.back.bind(this)} leftText={'Back'}/>
-				<Text>{state.params.foodName}</Text>
-				<Image
-					source={{uri: 'data:image/jpeg;base64,'+state.params.image}}
-					style={{ width: deviceWidth, height: (deviceHeight*.5), borderRadius: 10}}
-				/>
-				<Text>{state.params.foodPlace}</Text>
-				<View style={{flexDirection: 'row'}}>
+				<View style={styles.foodPageContainer}>
+					<Text>{state.params.foodName}</Text>
 					<Image
-						source={ratingDetails.rateIcon}
-						style={{height: 64, width: 64}}
+						source={{uri: 'data:image/jpeg;base64,'+state.params.image}}
+						style={{ width: deviceWidth, height: (deviceHeight*.5), borderRadius: 10}}
 					/>
-					<Text>{ratingDetails.rateText}</Text>
+					<Text>{state.params.foodPlace}</Text>
+					<View style={styles.ratingDetails}>
+						<Image
+							source={ratingDetails.rateIcon}
+							style={{height: 64, width: 64}}
+						/>
+						<Text>{ratingDetails.rateText}</Text>
+					</View>
+					<Text>{state.params.description}</Text>
 				</View>
-				<Text>{state.params.description}</Text>
-
 			</View>
 		)
 	}

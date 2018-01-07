@@ -29,7 +29,7 @@ class Post extends Component {
   constructor(props) {
     super(props);
     this.chooseRating = this.chooseRating.bind(this);
-    this.state = { 
+    this.state = {
       date: '',
       isModalVisible: false,
       description: '',
@@ -132,7 +132,7 @@ class Post extends Component {
                 ],
                 { cancelable: true }
               );
-            }  
+            }
           } else {
             Alert.alert('Please select a rating for the dish');
           }
@@ -203,7 +203,12 @@ class Post extends Component {
     }
     return (
       <KeyboardAwareScrollView style={styles.container}>
-        <Header title="Post" left={this.back.bind(this)} leftText={'Back'}/>
+        <Header
+          title="New Post"
+          left={this.back.bind(this)}
+          leftText={'Back'}
+          leftIcon={'back'}
+        />
         <View style={ styles.center }>
           <TextInput
             placeholder='What did you eat?'
