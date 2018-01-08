@@ -1,14 +1,3 @@
-import firebase from './config/firebase';
-import Header from './components/header';
-import RateIcon from './components/rateIcon';
-import styles from './theme/theme.js';
-import Dimensions from 'Dimensions';
-import { ImagePicker, ImageManipulator } from 'expo';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import Modal from 'react-native-modal';
-import moment from 'moment';
-import { Entypo } from '@expo/vector-icons';
-
 import React, { Component } from 'react';
 import {
   Alert,
@@ -18,13 +7,31 @@ import {
   TextInput,
   Image,
   ScrollView,
-  KeyboardAvoidingView
+  Dimensions
 } from 'react-native';
+import {
+  ImagePicker,
+  ImageManipulator,
+  Location,
+  Permissions
+} from 'expo';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import Modal from 'react-native-modal';
+import moment from 'moment';
+
+import firebase from './config/firebase';
+import Header from './components/header';
+import RateIcon from './components/rateIcon';
+import styles from './theme/theme.js';
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
 
 class Post extends Component {
+
+  static navigationOptions = {
+    header: null
+  };
 
   constructor(props) {
     super(props);
@@ -38,8 +45,8 @@ class Post extends Component {
       image64: '',
       place: {
         name: '',
-        lat:'',
-        lng:'',
+        lat: '',
+        lng: '',
         address: ''
       },
       rating: 0,
@@ -53,26 +60,27 @@ class Post extends Component {
     };
   }
 
-  static navigationOptions = {
-    header: null
-  };
-
-  componentDidMount(){
+  componentDidMount() {
     this.getPlaces();
   }
 
-  getPlaces(){
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const coords = position.coords.latitude + ',' + position.coords.longitude
-        const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + coords + '&radius=500&type=restaurant&key=AIzaSyCO7j-QXjV5zJwmKqkdVPoXDyv4SPOX7fU'
-        fetch(url, {method: "GET"})
-          .then((response) => response.json())
-          .then((responseData) => {
-            this.setState({ nearby: responseData.results })
-          })
-      }
-    )
+  getPlaces = async () => {
+    const { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      this.setState({
+        errorMessage: 'Permission to access location was denied',
+      });
+    }
+
+    const location = await Location.getCurrentPositionAsync({});
+    const coords = `${location.coords.latitude},${location.coords.longitude}`;
+    const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${coords}&radius=500&type=restaurant&key=AIzaSyCO7j-QXjV5zJwmKqkdVPoXDyv4SPOX7fU`;
+    return fetch(url, { method: 'GET' })
+      .then((response) => response.json())
+      .then((responseData) => {
+        this.setState({ nearby: responseData.results });
+        console.log(this.state.nearby);
+      });
   }
 
   chooseImgSource() {
@@ -80,15 +88,15 @@ class Post extends Component {
       'Add a picture',
       'Would you like take a new picture or choose one from your albums?',
       [
-        {text: 'Take a Picture', onPress: () => this.takePhoto()},
-        {text: 'Choose from Album', onPress: () => this.choosePhoto()},
+        { text: 'Take a Picture', onPress: () => this.takePhoto() },
+        { text: 'Choose from Album', onPress: () => this.choosePhoto() },
       ],
       { cancelable: true }
     );
   }
 
   takePhoto = async () => {
-    let result = await ImagePicker.launchCameraAsync({
+    const result = await ImagePicker.launchCameraAsync({
       base64: true
     });
 
@@ -98,7 +106,7 @@ class Post extends Component {
   }
 
   choosePhoto = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchImageLibraryAsync({
       base64: true
     });
 
@@ -108,27 +116,28 @@ class Post extends Component {
   }
 
   resizeImg = async(result) => {
-    const resizedImg = await ImageManipulator.manipulate(result.uri, [{resize: {width: 500}}], {base64: true});
+    const resizedImg = await ImageManipulator.manipulate(
+      result.uri, [{ resize: { width: 500 } }], { base64: true }
+    );
     this.setState({ image: resizedImg.uri });
     this.setState({ image64: resizedImg.base64 });
   }
 
   post = async() => {
-
     //Checks for completed fields
-    if (this.state.dishname != '') {
-      if (this.state.image64 != '') {
-        if (this.state.place.name != '') {
-          if (this.state.rating != 0) {
-            if (this.state.description != '') {
+    if (this.state.dishname !== '') {
+      if (this.state.image64 !== '') {
+        if (this.state.place.name !== '') {
+          if (this.state.rating !== 0) {
+            if (this.state.description !== '') {
               this.confirmEntry();
             } else {
               Alert.alert(
                 'Missing description',
                 'Would you like to add one?',
                 [
-                  {text: 'Yes', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-                  {text: 'No, publish without', onPress: () => this.confirmEntry()},
+                  { text: 'Yes', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+                  { text: 'No, publish without', onPress: () => this.confirmEntry() },
                 ],
                 { cancelable: true }
               );
@@ -152,8 +161,8 @@ class Post extends Component {
       'Please confirm',
       'Publish this dish now?',
       [
-        {text: 'Not now', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-        {text: 'Yes', onPress: () => this.pushContent()},
+        { text: 'Not now', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+        { text: 'Yes', onPress: () => this.pushContent() },
       ],
       { cancelable: true }
     );
@@ -171,12 +180,12 @@ class Post extends Component {
     this.props.navigation.navigate('HomeScreen');
   }
 
-  back(){
+  back() {
     this.props.navigation.navigate('HomeScreen');
   }
 
   chooseRating(index) {
-    var thisRatingId = 'rating'+index;
+    const thisRatingId = `rating${index}`;
     this.setState({
       rating: index,
       rating1: false,
@@ -187,19 +196,14 @@ class Post extends Component {
     });
   }
 
-  chooseRestaurant(place) {
-    this.setState({place: test});
-    this._toggleModal;
-  }
-
-  _toggleModal = () => this.setState({ isModalVisible: !this.state.isModalVisible });
+  toggleModal = () => this.setState({ isModalVisible: !this.state.isModalVisible });
 
   render() {
-    {if (this.state.image == '') {
-      var img = require('./img/placeholder.jpg');
+    let img;
+    if (this.state.image === '') {
+      img = require('./img/placeholder.jpg');
     } else {
-      var img = {uri: this.state.image};
-    }
+      img = { uri: this.state.image };
     }
     return (
       <KeyboardAwareScrollView style={styles.container}>
@@ -209,44 +213,42 @@ class Post extends Component {
           leftText={'Back'}
           leftIcon={'back'}
         />
-        <View style={ styles.center }>
+        <View style={styles.center}>
           <TextInput
             placeholder='What did you eat?'
-            style={ styles.textInput }
-            onChangeText={(text) => this.setState({dishname: text})}
+            style={styles.textInput}
+            onChangeText={(text) => this.setState({ dishname: text })}
           />
           <TouchableOpacity onPress={this.chooseImgSource.bind(this)}>
             <Image
               source={img}
-              style={{ width: deviceWidth, height: (deviceWidth*.5), borderRadius: 10}}
+              style={{ width: deviceWidth, height: (deviceWidth * 0.5), borderRadius: 10 }}
             />
           </TouchableOpacity>
           <View>
-            <Text style={ styles.text }>{this.state.place.name}</Text>
-            <Text style={ styles.text }>{this.state.place.address}</Text>
+            <Text style={styles.text}>{this.state.place.name}</Text>
+            <Text style={styles.text}>{this.state.place.address}</Text>
           </View>
-          <TouchableOpacity onPress={this._toggleModal} style={ styles.btn }>
-            <Text style={ styles.text }>Choose a Restaurant</Text>
+          <TouchableOpacity onPress={this.toggleModal} style={styles.btn}>
+            <Text style={styles.text}>Choose a Restaurant</Text>
           </TouchableOpacity>
           <Modal isVisible={this.state.isModalVisible} style={styles.modal}>
-            <ScrollView style={{ height: deviceHeight*0.2}} >
+            <ScrollView style={{ height: deviceHeight * 0.2 }}>
               {Object.keys(this.state.nearby).map((key) => {
-                var test = {
+                const test = {
                   address: this.state.nearby[key].vicinity,
-                  lat: this.state.nearby[key].geometry.location.lat,
-                  lng: this.state.nearby[key].geometry.location.lng,
                   name: this.state.nearby[key].name
-                }
+                };
                 return (
                   <TouchableOpacity
                     key={key}
-                    style={{padding: 20}}
-                    onPress={ (place) => this.setState({place: test, isModalVisible: false}) }
+                    style={{ padding: 20 }}
+                    onPress={() => this.setState({ place: test, isModalVisible: false })}
                   >
                     <Text style={styles.text}>{this.state.nearby[key].name}</Text>
                     <Text style={styles.text}>{this.state.nearby[key].vicinity}</Text>
                   </TouchableOpacity>
-                )
+                );
               })}
             </ScrollView>
           </Modal>
@@ -257,20 +259,36 @@ class Post extends Component {
               justifyContent: 'space-around'
             }}
           >
-            <RateIcon rating={1} selected={() => this.chooseRating(1)} active={this.state.rating1}/>
-            <RateIcon rating={2} selected={() => this.chooseRating(2)} active={this.state.rating2}/>
-            <RateIcon rating={3} selected={() => this.chooseRating(3)} active={this.state.rating3}/>
-            <RateIcon rating={4} selected={() => this.chooseRating(4)} active={this.state.rating4}/>
+            <RateIcon
+              rating={1}
+              selected={() => this.chooseRating(1)}
+              active={this.state.rating1}
+            />
+            <RateIcon
+              rating={2}
+              selected={() => this.chooseRating(2)}
+              active={this.state.rating1}
+            />
+            <RateIcon
+              rating={3}
+              selected={() => this.chooseRating(3)}
+              active={this.state.rating1}
+            />
+            <RateIcon
+              rating={4}
+              selected={() => this.chooseRating(4)}
+              active={this.state.rating1}
+            />
           </View>
           <View>
             <TextInput
               placeholder='Write a short description'
-              style={ styles.descInput }
-              onChangeText={(text) => this.setState({description: text})}
+              style={styles.descInput}
+              onChangeText={(text) => this.setState({ description: text })}
             />
           </View>
-          <TouchableOpacity style={ styles.btn } onPress={this.post.bind(this)}>
-            <Text style={ styles.text }>Post</Text>
+          <TouchableOpacity style={styles.btn} onPress={this.post.bind(this)}>
+            <Text style={styles.text}>Post</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAwareScrollView>

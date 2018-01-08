@@ -30,7 +30,6 @@ class Search extends Component {
           placeholder={this.props.pholder}
           autoFocus={this.props.focus}
           onChangeText={this.props.txtChange}
-          // onBlur={this.props.blur}
           value={this.props.srchString}
         />
       </View>

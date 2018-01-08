@@ -1,20 +1,24 @@
-import firebaseApp from './config/firebase';
-import * as firebase from 'firebase';
-import styles from './theme/theme.js';
-import { StackNavigator } from 'react-navigation';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import React, { Component } from 'react';
 import {
 	View,
 	Text,
 	TextInput,
-	Button,
 	Alert,
 	TouchableOpacity,
 	Switch
 } from 'react-native';
+import * as firebase from 'firebase';
+
+import firebaseApp from './config/firebase';
+import styles from './theme/theme.js';
+
 
 class Login extends Component {
+
+	static navigationOptions = {
+		header: null
+	};
+
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -24,31 +28,27 @@ class Login extends Component {
 		};
 	}
 
-	static navigationOptions = {
-	    header: null
-	};
-
 	login() {
-		var propsRef = this.props;
-		var stateRef = this.state;
-		if (stateRef.stayLogged == true) {
+		const propsRef = this.props;
+		const stateRef = this.state;
+		if (stateRef.stayLogged === true) {
 			firebaseApp.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-			.then(function() {
+			.then(() => {
 				propsRef.navigation.navigate('HomeScreen');
-			}, function(error) {
+			}, (error) => {
 				//Login error
-				Alert.alert(error.message)
+				Alert.alert(error.message);
 			});
 		} else {
 			firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE)
-				.then(function() {
-			    	return firebase.auth().signInWithEmailAndPassword(stateRef.email, stateRef.password)
-				    .then(function() {
+				.then(() => {
+					return firebase.auth().signInWithEmailAndPassword(stateRef.email, stateRef.password)
+					.then(() => {
 						propsRef.navigation.navigate('HomeScreen');
 					});
-			  });
+				});
+			}
 		}
-	}
 
 	register() {
 		this.props.navigation.navigate('Register');
@@ -61,24 +61,24 @@ class Login extends Component {
 	render() {
 		return (
 			<View style={[styles.container, styles.center]}>
-				<Text style={ styles.logo }>SigDish_V0.01</Text>
+				<Text style={styles.logo}>SigDish_V0.01</Text>
 				<TextInput
 					style={styles.textInput}
 					placeholder="Email"
-					onChangeText={(email) => this.setState({email: email})}
+					onChangeText={(email) => this.setState({ email })}
 					value={this.state.email}
-					keyboardType={"email-address"}
+					keyboardType={'email-address'}
 				/>
 				<View style={styles.line} />
 				<TextInput
 					style={styles.textInput}
 					placeholder="Password"
-					secureTextEntry={true}
-					onChangeText={(password) => this.setState({password: password})}
+					secureTextEntry
+					onChangeText={(password) => this.setState({ password })}
 					value={this.state.password}
 				/>
 				<View style={styles.line} />
-				<View 
+				<View
 					style={{
 						flexDirection: 'row',
 						margin: 10,
@@ -91,12 +91,12 @@ class Login extends Component {
 					/>
 					<Text> Remember Me</Text>
 				</View>
+
 				<TouchableOpacity
 					style={styles.btn}
-					onPress={this.login.bind(this)}>
-
+					onPress={this.login.bind(this)}
+				>
 					<Text style={styles.text}>Submit</Text>
-
 				</TouchableOpacity>
 
 				<TouchableOpacity onPress={this.register.bind(this)}>

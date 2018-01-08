@@ -1,18 +1,21 @@
-import firebase from './config/firebase';
-import styles from './theme/theme.js';
-import { StackNavigator } from 'react-navigation';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import React, { Component } from 'react';
 import {
 	View,
 	Text,
 	TextInput,
-	Button,
 	Alert,
 	TouchableOpacity
 } from 'react-native';
 
+import firebase from './config/firebase';
+import styles from './theme/theme.js';
+
 class Register extends Component {
+
+	static navigationOptions = {
+			header: null
+	};
+
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -21,18 +24,15 @@ class Register extends Component {
 		};
 	}
 
-	static navigationOptions = {
-	    header: null
-	};
-
 	register() {
-		var state = this;
-		firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(function() {
+		const state = this;
+		firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+		.then(() => {
 			//Login successful
 			state.props.navigation.navigate('HomeScreen');
-		}, function(error) {
+		}, (error) => {
 			//Login error
-			Alert.alert(error.message)
+			Alert.alert(error.message);
 		});
 	}
 
@@ -43,30 +43,31 @@ class Register extends Component {
 	render() {
 		return (
 			<View style={[styles.container, styles.center]}>
-				<Text style={ styles.logo }>SigDish_V0.01</Text>
+				<Text style={styles.logo}>SigDish_V0.01</Text>
 				<TextInput
 					style={styles.textInput}
 					placeholder="Email"
-					onChangeText={(email) => this.setState({email: email})}
+					onChangeText={(email) => this.setState({ email })}
 					value={this.state.email}
-					keyboardType={"email-address"}
+					keyboardType={'email-address'}
 				/>
 				<View style={styles.line} />
 				<TextInput
 					style={styles.textInput}
 					placeholder="Password"
-					secureTextEntry={true}
-					onChangeText={(password) => this.setState({password: password})}
+					secureTextEntry
+					onChangeText={(password) => this.setState({ password })}
 					value={this.state.password}
 				/>
 				<View style={styles.line} />
+
 				<TouchableOpacity
 					style={styles.btn}
-					onPress={this.register.bind(this)}>
-
+					onPress={this.register.bind(this)}
+				>
 					<Text style={styles.text}>Register</Text>
-
 				</TouchableOpacity>
+
 				<TouchableOpacity onPress={this.login.bind(this)}>
 					<Text style={styles.textBig}>Log In</Text>
 				</TouchableOpacity>

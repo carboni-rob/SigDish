@@ -9,29 +9,28 @@ import styles from '../theme/theme.js';
 
 class FoodCard extends Component {
 	render() {
-		
-		var icon;
-		switch(this.props.rating) {
-		    case 1:
-		        icon = require('../img/emoji-dontlike.png');
-		        break;
-		    case 2:
-		        icon = require('../img/emoji-notsure.png');
-		        break;
-		    case 3:
-		        icon = require('../img/emoji-like.png');
-		        break;
-		    case 4:
-		        icon = require('../img/emoji-love.png');
+		let icon;
+		switch (this.props.rating) {
+			case 1:
+				icon = require('../img/emoji-dontlike.png');
+				break;
+			case 2:
+				icon = require('../img/emoji-notsure.png');
+				break;
+			case 3:
+				icon = require('../img/emoji-like.png');
+				break;
+			case 4:
+				icon = require('../img/emoji-love.png');
 		}
 
-		return(
+		return (
 			<TouchableOpacity
 				style={styles.cardView}
 				onPress={this.props.select}
 			>
 				<Image
-					source={{uri: 'data:image/jpeg;base64,'+this.props.image}}
+					source={{ uri: `data:image/jpeg;base64,${this.props.image}` }}
 					style={styles.cardImg}
 				/>
 				<Image
@@ -80,7 +79,7 @@ class FoodCard extends Component {
 				</View>
 			</TouchableOpacity>
 		);
-	};
+	}
 }
 
 module.exports = FoodCard;

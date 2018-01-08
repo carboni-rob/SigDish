@@ -21,9 +21,7 @@ class Home extends Component {
 
 	static navigationOptions = {
 			header: null,
-			cardStack: {
 			gesturesEnabled: false
-		}
 	};
 
 	constructor(props) {

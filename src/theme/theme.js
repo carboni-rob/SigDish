@@ -1,7 +1,8 @@
-const React = require('react-native')
-const {StyleSheet} = React
+const React = require('react-native');
 
-var styles = StyleSheet.create({
+const { StyleSheet } = React;
+
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff'
@@ -39,30 +40,30 @@ var styles = StyleSheet.create({
   },
   text: {
     textAlign: 'center',
-    fontFamily: "GillSans-Light"
+    fontFamily: 'GillSans-Light'
   },
   headerText: {
     textAlign: 'center',
-    fontFamily: "GillSans-Light",
+    fontFamily: 'GillSans-Light',
     color: '#4a79c4',
     fontWeight: 'bold',
     fontSize: 16
   },
   textBig: {
     textAlign: 'center',
-    fontFamily: "GillSans-Light",
+    fontFamily: 'GillSans-Light',
     fontSize: 18
   },
   textInput: {
     width: 150,
     height: 50,
     textAlign: 'center',
-    fontFamily: "GillSans-Light",
+    fontFamily: 'GillSans-Light',
   },
   descInput: {
     width: 300,
     height: 80,
-    fontFamily: "GillSans-Light",
+    fontFamily: 'GillSans-Light',
     borderColor: '#c9c9c9',
     borderWidth: 1,
     borderRadius: 10,
@@ -75,7 +76,7 @@ var styles = StyleSheet.create({
     height: 1,
     alignSelf: 'stretch',
   },
-  logo:{
+  logo: {
     textAlign: 'center',
     fontSize: 26,
   },
@@ -155,6 +156,6 @@ var styles = StyleSheet.create({
     backgroundColor: '#fff'
   }
 
-})
+});
 
-module.exports = styles
+module.exports = styles;
