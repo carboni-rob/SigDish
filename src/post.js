@@ -76,7 +76,7 @@ class Post extends Component {
     const location = await Location.getCurrentPositionAsync({});
     const coords = `${location.coords.latitude},${location.coords.longitude}`;
     const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${coords}&radius=500&type=restaurant&key=AIzaSyCO7j-QXjV5zJwmKqkdVPoXDyv4SPOX7fU`;
-    return fetch(url, { method: 'GET' })
+    fetch(url, { method: 'GET' })
       .then((response) => response.json())
       .then((responseData) => {
         this.setState({ nearby: responseData.results });
@@ -268,17 +268,17 @@ class Post extends Component {
             <RateIcon
               rating={2}
               selected={() => this.chooseRating(2)}
-              active={this.state.rating1}
+              active={this.state.rating2}
             />
             <RateIcon
               rating={3}
               selected={() => this.chooseRating(3)}
-              active={this.state.rating1}
+              active={this.state.rating3}
             />
             <RateIcon
               rating={4}
               selected={() => this.chooseRating(4)}
-              active={this.state.rating1}
+              active={this.state.rating4}
             />
           </View>
           <View>
