@@ -3,26 +3,14 @@ import {
 	TouchableOpacity,
 	Image
 } from 'react-native';
+
+import IconSelector from './iconSelector';
 import styles from '../theme/theme.js';
 
 
 class RateIcon extends Component {
 	render() {
-		let iconImg;
-		switch (this.props.rating) {
-			case 1:
-				iconImg = require('../img/emoji-dontlike.png');
-				break;
-			case 2:
-				iconImg = require('../img/emoji-notsure.png');
-				break;
-			case 3:
-				iconImg = require('../img/emoji-like.png');
-				break;
-			case 4:
-				iconImg = require('../img/emoji-love.png');
-		}
-
+		const iconImg = IconSelector(this.props.rating).iconImg;
 		return (
 			<TouchableOpacity
 				onPress={this.props.selected}

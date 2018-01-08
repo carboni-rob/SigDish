@@ -108,8 +108,8 @@ class Home extends Component {
 
 				{this.state.isLoading
 					? <ActivityIndicator
-							size="large"
-							color="#4a79c4"
+							size='large'
+							color='#4a79c4'
 							style={{ marginTop: deviceHeight / 3 }}
 					/>
 					: (foodArray.length === 0

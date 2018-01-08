@@ -26,6 +26,7 @@ import styles from './theme/theme.js';
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
+const pholderImg = require('./img/placeholder.jpg');
 
 class Post extends Component {
 
@@ -201,7 +202,7 @@ class Post extends Component {
   render() {
     let img;
     if (this.state.image === '') {
-      img = require('./img/placeholder.jpg');
+      img = pholderImg;
     } else {
       img = { uri: this.state.image };
     }

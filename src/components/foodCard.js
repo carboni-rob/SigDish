@@ -5,25 +5,13 @@ import {
 	Image,
 	TouchableOpacity
 } from 'react-native';
+
+import IconSelector from './iconSelector';
 import styles from '../theme/theme.js';
 
 class FoodCard extends Component {
 	render() {
-		let icon;
-		switch (this.props.rating) {
-			case 1:
-				icon = require('../img/emoji-dontlike.png');
-				break;
-			case 2:
-				icon = require('../img/emoji-notsure.png');
-				break;
-			case 3:
-				icon = require('../img/emoji-like.png');
-				break;
-			case 4:
-				icon = require('../img/emoji-love.png');
-		}
-
+		const iconImg = IconSelector(this.props.rating).iconImg;
 		return (
 			<TouchableOpacity
 				style={styles.cardView}
@@ -34,7 +22,7 @@ class FoodCard extends Component {
 					style={styles.cardImg}
 				/>
 				<Image
-					source={icon}
+					source={iconImg}
 					style={{
 						width: 24,
 						height: 24,
