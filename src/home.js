@@ -1,25 +1,31 @@
-import firebase from './config/firebase';
-import Header from './components/header';
-import FoodCard from './components/foodCard';
-import Search from './components/search';
-import styles from './theme/theme.js';
-import Dimensions from 'Dimensions';
-var deviceWidth = Dimensions.get('window').width;
-var deviceHeight = Dimensions.get('window').height;
-
 import React, { Component } from 'react';
 import {
 	View,
 	Text,
-	Image,
-	TouchableOpacity,
 	ActivityIndicator,
-	TextInput,
-	FlatList
+	FlatList,
+	Dimensions
 } from 'react-native';
+
+import firebase from './config/firebase';
+import Header from './components/header';
+import FoodCard from './components/foodCard';
+import Search from './components/search';
+import Iconsearch from './components/iconSearch';
+import styles from './theme/theme.js';
+
+const deviceHeight = Dimensions.get('window').height;
 
 
 class Home extends Component {
+
+	static navigationOptions = {
+			header: null,
+			cardStack: {
+			gesturesEnabled: false
+		}
+	};
+
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -27,23 +33,21 @@ class Home extends Component {
 			filteredFood: [],
 			isLoading: true,
 			searchIsOpen: false,
-			dishSearchString: ''
-		}
+			dishSearchString: '',
+			restaurantSearchString: '',
+			ratingSearch: '1234'
+		};
 	}
 
-	static navigationOptions = {
-	    header: null
-	};
-
 	componentDidMount() {
-		this.getFood()
+		this.getFood();
 	}
 
 	getFood() {
 		firebase.database().ref('food').on('value', (snap) => {
-			var items = [];
+			const items = [];
 			snap.forEach((child) => {
-				var item = child.val();
+				const item = child.val();
 				items.push(item);
 			});
 			items.reverse();
@@ -57,47 +61,77 @@ class Home extends Component {
 
 	render() {
 		const { navigate } = this.props.navigation;
-		const stateRef = this.state;
-		const foodArray = this.state.food.filter(food => food.dish.includes(this.state.dishSearchString));
-		return(
+		const foodArray = this.state.food.filter(
+			food => food.dish.includes(this.state.dishSearchString) &&
+			food.place.includes(this.state.restaurantSearchString) &&
+			this.state.ratingSearch.includes(food.rating)
+		);
+
+		return (
 			<View style={styles.container}>
 				<Header
 					title="SigDish_V0.01"
 					left={this.newPost.bind(this)}
-					leftText={"New"}
+					leftText={'New'}
 					leftIcon={'new-message'}
-					right={() => this.setState({ searchIsOpen: !this.state.searchIsOpen })}
+					right={() => this.setState({
+						searchIsOpen: !this.state.searchIsOpen,
+						dishSearchString: '',
+						restaurantSearchString: '',
+						ratingSearch: '1234'
+					})}
 					rightText={'Search'}
-					rightIcon={'ios-search'}
+					rightIcon={this.state.searchIsOpen ? 'md-close' : 'ios-search'}
 				/>
 				{this.state.searchIsOpen &&
-					<View style={{height: 50, padding: 10, backgroundColor: '#c4c4c4'}}>
-				        <TextInput
-				        	style={{flex: 1, borderRadius: 10, backgroundColor: '#fff', paddingLeft: 5}}
-				        	placeholder={'Search by dish'}
-							value={this.state.dishSearchString}
-							autoFocus={true}
-				        	onChangeText={(text) => this.setState({dishSearchString: text})}
-							onBlur={() => this.setState({searchIsOpen: false})}
-				        >
-				        </TextInput>
-		      		</View>
+					<View>
+						<Search
+							focus
+							searchType='By Dish'
+							srchString={this.state.dishSearchString}
+							pholder={'Search by dish'}
+							txtChange={(text) => this.setState({ dishSearchString: text })}
+						/>
+						<Search
+							searchType='Restaurant'
+							srchString={this.state.restaurantSearchString}
+							pholder={'Search by Restaurant'}
+							txtChange={(text) => this.setState({ restaurantSearchString: text })}
+						/>
+						<Iconsearch
+							searchType='By Rating'
+							select1={() => this.setState({ ratingSearch: '1' })}
+							select2={() => this.setState({ ratingSearch: '2' })}
+							select3={() => this.setState({ ratingSearch: '3' })}
+							select4={() => this.setState({ ratingSearch: '4' })}
+						/>
+					</View>
 				}
 
-				{this.state.isLoading && <ActivityIndicator size="large" color="#4a79c4" style={{marginTop: deviceHeight/3}}/>}
+				{this.state.isLoading
+					? <ActivityIndicator
+							size="large"
+							color="#4a79c4"
+							style={{ marginTop: deviceHeight / 3 }}
+					/>
+					: (foodArray.length === 0
+						? <Text>There are no dishes matching this search</Text>
+						: null
+					)
+				}
 
 				<FlatList
 					keyExtractor={item => item.image}
 					data={foodArray}
 					renderItem={({ item }) => (
-	          			<FoodCard
+						<FoodCard
 							rating={item.rating}
 							date={item.date}
 							foodName={item.dish}
 							foodPlace={item.place}
 							image={item.image}
 							description={item.description}
-							select={() => navigate('FoodPage',{
+							select={() => navigate('FoodPage', {
 								rating: item.rating,
 								date: item.date,
 								foodName: item.dish,

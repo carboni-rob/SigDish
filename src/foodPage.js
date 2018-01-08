@@ -17,8 +17,8 @@ class FoodPage extends Component {
 	    header: null
 	};
 
-	back(){
-    	this.props.navigation.navigate('HomeScreen');
+	back() {
+		this.props.navigation.navigate('HomeScreen');
 	}
 
 	render() {
