@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Font } from 'expo';
 import { StackNavigator } from 'react-navigation';
 import Login from './src/login';
 import LoginManager from './src/loginManager';
@@ -18,7 +19,23 @@ const LoginScreen = StackNavigator({
 
 export default class SigDish extends Component {
 
+  state = {
+    fontLoaded: false,
+  };
+
+  async componentDidMount() {
+    await Font.loadAsync({
+      'lobster-reg': require('./assets/fonts/Lobster-Regular.ttf'),
+    });
+
+    this.setState({ fontLoaded: true });
+  }
+
   render() {
-    return <LoginScreen />;
+    return (
+      this.state.fontLoaded ? (
+        <LoginScreen />
+      ) : null
+    );
   }
 }

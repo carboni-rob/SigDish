@@ -61,7 +61,7 @@ class Login extends Component {
 	render() {
 		return (
 			<View style={[styles.container, styles.center]}>
-				<Text style={styles.logo}>SigDish_V0.01</Text>
+				<Text style={styles.logo}>B!eat</Text>
 				<TextInput
 					style={styles.textInput}
 					placeholder="Email"

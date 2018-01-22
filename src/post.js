@@ -80,7 +80,6 @@ class Post extends Component {
       .then((response) => response.json())
       .then((responseData) => {
         this.setState({ nearby: responseData.results });
-        console.log(this.state.nearby);
       });
   }
 

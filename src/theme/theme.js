@@ -78,7 +78,9 @@ const styles = StyleSheet.create({
   },
   logo: {
     textAlign: 'center',
-    fontSize: 26,
+    fontSize: 52,
+    color: '#C00000',
+    fontFamily: 'lobster-reg'
   },
   header: {
     flexDirection: 'row',
