@@ -32,11 +32,32 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   btn: {
-    borderWidth: 1,
     padding: 10,
     margin: 10,
-    borderRadius: 3,
+    borderRadius: 5,
     width: 150,
+    backgroundColor: '#C00000'
+  },
+  btn2: {
+    borderWidth: 2,
+    padding: 10,
+    margin: 10,
+    borderRadius: 5,
+    width: 150,
+    borderColor: '#C00000'
+  },
+  btn_text: {
+    color: '#fff',
+    fontSize: 18,
+    textAlign: 'center',
+    fontFamily: 'lobster-reg'
+  },
+  btn2_text: {
+    color: '#C00000',
+    fontSize: 18,
+    textAlign: 'center',
+    fontFamily: 'lobster-reg',
+    backgroundColor: 'transparent'
   },
   text: {
     textAlign: 'center',
@@ -59,6 +80,8 @@ const styles = StyleSheet.create({
     height: 50,
     textAlign: 'center',
     fontFamily: 'GillSans-Light',
+    borderBottomWidth: 1,
+    borderColor: '#c9c9c9'
   },
   descInput: {
     width: 300,
@@ -78,9 +101,12 @@ const styles = StyleSheet.create({
   },
   logo: {
     textAlign: 'center',
-    fontSize: 52,
     color: '#C00000',
-    fontFamily: 'lobster-reg'
+    fontFamily: 'lobster-reg',
+    backgroundColor: 'transparent'
+  },
+  lrg_logo_size: {
+    fontSize: 84
   },
   header: {
     flexDirection: 'row',

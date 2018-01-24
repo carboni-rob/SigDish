@@ -5,13 +5,18 @@ import {
 	TextInput,
 	Alert,
 	TouchableOpacity,
-	Switch
+	Switch,
+	Image,
+	ImageBackground,
+	Dimensions
 } from 'react-native';
 import * as firebase from 'firebase';
 
 import firebaseApp from './config/firebase';
 import styles from './theme/theme.js';
 
+const deviceWidth = Dimensions.get('window').width;
+const deviceHeight = Dimensions.get('window').height;
 
 class Login extends Component {
 
@@ -60,8 +65,16 @@ class Login extends Component {
 
 	render() {
 		return (
-			<View style={[styles.container, styles.center]}>
-				<Text style={styles.logo}>B!eat</Text>
+			//<View style={[styles.container, styles.center]}>
+			<ImageBackground
+				source={require('./img/bground.jpg')}
+				style={[{ width: deviceWidth, height: deviceHeight }, styles.container, styles.center]}
+			>
+				<Text style={[styles.logo, styles.lrg_logo_size]}>B!eat</Text>
+				<Image
+					source={require('./img/guido_outline_smile.png')}
+					style={{ width: 100, height: 120, resizeMode: 'contain' }}
+				/>
 				<TextInput
 					style={styles.textInput}
 					placeholder="Email"
@@ -69,7 +82,6 @@ class Login extends Component {
 					value={this.state.email}
 					keyboardType={'email-address'}
 				/>
-				<View style={styles.line} />
 				<TextInput
 					style={styles.textInput}
 					placeholder="Password"
@@ -77,7 +89,6 @@ class Login extends Component {
 					onChangeText={(password) => this.setState({ password })}
 					value={this.state.password}
 				/>
-				<View style={styles.line} />
 				<View
 					style={{
 						flexDirection: 'row',
@@ -96,13 +107,17 @@ class Login extends Component {
 					style={styles.btn}
 					onPress={this.login.bind(this)}
 				>
-					<Text style={styles.text}>Submit</Text>
+					<Text style={styles.btn_text}>Submit</Text>
 				</TouchableOpacity>
-
-				<TouchableOpacity onPress={this.register.bind(this)}>
-					<Text style={styles.textBig}>Register</Text>
+				<Text>or</Text>
+				<TouchableOpacity
+					style={styles.btn2}
+					onPress={this.register.bind(this)}
+				>
+					<Text style={styles.btn2_text}>Register</Text>
 				</TouchableOpacity>
-			</View>
+				</ImageBackground>
+			//</View>
 		);
 	}
 }
