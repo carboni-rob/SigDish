@@ -4,11 +4,17 @@ import {
 	Text,
 	TextInput,
 	Alert,
-	TouchableOpacity
+	TouchableOpacity,
+	Image,
+	ImageBackground,
+	Dimensions
 } from 'react-native';
 
 import firebase from './config/firebase';
 import styles from './theme/theme.js';
+
+const deviceWidth = Dimensions.get('window').width;
+const deviceHeight = Dimensions.get('window').height;
 
 class Register extends Component {
 
@@ -42,8 +48,15 @@ class Register extends Component {
 
 	render() {
 		return (
-			<View style={[styles.container, styles.center]}>
-				<Text style={styles.logo}>SigDish_V0.01</Text>
+			<ImageBackground
+				source={require('./img/bground.jpg')}
+				style={[{ width: deviceWidth, height: deviceHeight }, styles.container, styles.center]}
+			>
+				<Text style={[styles.logo, styles.lrg_logo_size]}>B!eat</Text>
+				<Image
+					source={require('./img/guido_outline_smile.png')}
+					style={{ width: 100, height: 120, resizeMode: 'contain' }}
+				/>
 				<TextInput
 					style={styles.textInput}
 					placeholder="Email"
@@ -51,7 +64,6 @@ class Register extends Component {
 					value={this.state.email}
 					keyboardType={'email-address'}
 				/>
-				<View style={styles.line} />
 				<TextInput
 					style={styles.textInput}
 					placeholder="Password"
@@ -59,19 +71,21 @@ class Register extends Component {
 					onChangeText={(password) => this.setState({ password })}
 					value={this.state.password}
 				/>
-				<View style={styles.line} />
 
 				<TouchableOpacity
 					style={styles.btn}
 					onPress={this.register.bind(this)}
 				>
-					<Text style={styles.text}>Register</Text>
+					<Text style={styles.btn_text}>Register</Text>
 				</TouchableOpacity>
-
-				<TouchableOpacity onPress={this.login.bind(this)}>
-					<Text style={styles.textBig}>Log In</Text>
+				<Text>or</Text>
+				<TouchableOpacity
+					style={styles.btn2}
+					onPress={this.login.bind(this)}
+				>
+					<Text style={styles.btn2_text}>Login</Text>
 				</TouchableOpacity>
-			</View>
+				</ImageBackground>
 		);
 	}
 }

@@ -76,12 +76,18 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   textInput: {
-    width: 150,
-    height: 50,
+    width: 200,
+    height: 25,
+    fontSize: 20,
+    marginTop: 20,
+    marginBottom: 10,
     textAlign: 'center',
     fontFamily: 'GillSans-Light',
     borderBottomWidth: 1,
     borderColor: '#c9c9c9'
+  },
+  switchStyle: {
+    tintColor: '#C00000'
   },
   descInput: {
     width: 300,

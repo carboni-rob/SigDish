@@ -65,7 +65,6 @@ class Login extends Component {
 
 	render() {
 		return (
-			//<View style={[styles.container, styles.center]}>
 			<ImageBackground
 				source={require('./img/bground.jpg')}
 				style={[{ width: deviceWidth, height: deviceHeight }, styles.container, styles.center]}
@@ -99,6 +98,7 @@ class Login extends Component {
 					<Switch
 						value={this.state.stayLogged}
 						onValueChange={() => this.setState({ stayLogged: !this.state.stayLogged })}
+						style={styles.switchStyle}
 					/>
 					<Text> Remember Me</Text>
 				</View>
@@ -117,7 +117,6 @@ class Login extends Component {
 					<Text style={styles.btn2_text}>Register</Text>
 				</TouchableOpacity>
 				</ImageBackground>
-			//</View>
 		);
 	}
 }
