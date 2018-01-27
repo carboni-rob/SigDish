@@ -5,7 +5,7 @@ const { StyleSheet } = React;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'transparent'
+    backgroundColor: '#fff'
   },
   foodPageContainer: {
     alignItems: 'center',
@@ -51,13 +51,13 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     textAlign: 'center',
-    fontFamily: 'lobster-reg'
+    fontFamily: 'lobsterReg'
   },
   btn2_text: {
     color: '#C00000',
     fontSize: 18,
     textAlign: 'center',
-    fontFamily: 'lobster-reg',
+    fontFamily: 'lobsterReg',
     backgroundColor: 'transparent'
   },
   text: {
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   logo: {
     textAlign: 'center',
     color: '#C00000',
-    fontFamily: 'lobster-reg',
+    fontFamily: 'lobsterReg',
     backgroundColor: 'transparent'
   },
   lrg_logo_size: {

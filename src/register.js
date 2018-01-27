@@ -59,7 +59,7 @@ class Register extends Component {
 				style={[{ width: deviceWidth, height: deviceHeight }, styles.container, styles.center]}
 			>
 				<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-				<View style={[styles.container, styles.center]}>
+				<View style={[{ flex: 1 }, styles.center]}>
 					<KeyboardAvoidingView
 						behavior="position"
 					>
