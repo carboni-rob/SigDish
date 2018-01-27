@@ -5,7 +5,7 @@ const { StyleSheet } = React;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: 'transparent'
   },
   foodPageContainer: {
     alignItems: 'center',
@@ -44,7 +44,8 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 5,
     width: 150,
-    borderColor: '#C00000'
+    borderColor: '#C00000',
+    backgroundColor: '#fff'
   },
   btn_text: {
     color: '#fff',
@@ -83,11 +84,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     textAlign: 'center',
     fontFamily: 'GillSans-Light',
-    borderBottomWidth: 1,
-    borderColor: '#c9c9c9'
+    borderBottomWidth: 2,
+    borderColor: '#C00000'
   },
   switchStyle: {
-    tintColor: '#C00000'
+    //tintColor: '#C00000'
   },
   descInput: {
     width: 300,

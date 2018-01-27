@@ -8,7 +8,10 @@ import {
 	Switch,
 	Image,
 	ImageBackground,
-	Dimensions
+	Dimensions,
+	KeyboardAvoidingView,
+	TouchableWithoutFeedback,
+	Keyboard
 } from 'react-native';
 import * as firebase from 'firebase';
 
@@ -18,10 +21,14 @@ import styles from './theme/theme.js';
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
 
+const bgroundImg = require('./img/bground.jpg');
+const logo = require('./img/guido_outline_smile.png');
+
 class Login extends Component {
 
 	static navigationOptions = {
-		header: null
+		header: null,
+		gesturesEnabled: false
 	};
 
 	constructor(props) {
@@ -66,57 +73,78 @@ class Login extends Component {
 	render() {
 		return (
 			<ImageBackground
-				source={require('./img/bground.jpg')}
+				source={bgroundImg}
 				style={[{ width: deviceWidth, height: deviceHeight }, styles.container, styles.center]}
 			>
-				<Text style={[styles.logo, styles.lrg_logo_size]}>B!eat</Text>
-				<Image
-					source={require('./img/guido_outline_smile.png')}
-					style={{ width: 100, height: 120, resizeMode: 'contain' }}
-				/>
-				<TextInput
-					style={styles.textInput}
-					placeholder="Email"
-					onChangeText={(email) => this.setState({ email })}
-					value={this.state.email}
-					keyboardType={'email-address'}
-				/>
-				<TextInput
-					style={styles.textInput}
-					placeholder="Password"
-					secureTextEntry
-					onChangeText={(password) => this.setState({ password })}
-					value={this.state.password}
-				/>
-				<View
-					style={{
-						flexDirection: 'row',
-						margin: 10,
-						alignItems: 'center'
-					}}
-				>
-					<Switch
-						value={this.state.stayLogged}
-						onValueChange={() => this.setState({ stayLogged: !this.state.stayLogged })}
-						style={styles.switchStyle}
-					/>
-					<Text> Remember Me</Text>
-				</View>
+				<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+				<View style={[styles.container, styles.center]}>
+					<KeyboardAvoidingView
+						behavior="position"
+					>
+						<Text style={[styles.logo, styles.lrg_logo_size]}>B!eat</Text>
+						<Image
+							source={logo}
+							style={{
+								width: 100,
+								height: 120,
+								resizeMode: 'contain',
+								alignSelf: 'center'
+							}}
+						/>
 
-				<TouchableOpacity
-					style={styles.btn}
-					onPress={this.login.bind(this)}
-				>
-					<Text style={styles.btn_text}>Submit</Text>
-				</TouchableOpacity>
-				<Text>or</Text>
-				<TouchableOpacity
-					style={styles.btn2}
-					onPress={this.register.bind(this)}
-				>
-					<Text style={styles.btn2_text}>Register</Text>
-				</TouchableOpacity>
-				</ImageBackground>
+							<TextInput
+								ref="emailField"
+								style={styles.textInput}
+								placeholder="Email"
+								autoCapitalize="none"
+								onChangeText={(email) => this.setState({ email })}
+								value={this.state.email}
+								keyboardType={'email-address'}
+								onSubmitEditing={() => { this.refs.pwField.focus(); }}
+							/>
+
+							<TextInput
+								ref="pwField"
+								style={styles.textInput}
+								placeholder="Password"
+								secureTextEntry
+								onChangeText={(password) => this.setState({ password })}
+								value={this.state.password}
+								onSubmitEditing={this.login.bind(this)}
+							/>
+						</KeyboardAvoidingView>
+
+						<View
+							style={{
+								flexDirection: 'row',
+								margin: 10,
+								alignItems: 'center'
+							}}
+						>
+							<Switch
+								value={this.state.stayLogged}
+								onValueChange={() => this.setState({ stayLogged: !this.state.stayLogged })}
+								style={styles.switchStyle}
+							/>
+							<Text> Remember Me</Text>
+						</View>
+
+						<TouchableOpacity
+							style={styles.btn}
+							onPress={this.register.bind(this)}
+						>
+							<Text style={styles.btn_text}>Submit</Text>
+						</TouchableOpacity>
+						<Text>or</Text>
+						<TouchableOpacity
+							style={styles.btn2}
+							onPress={this.register.bind(this)}
+						>
+							<Text style={styles.btn2_text}>Register</Text>
+						</TouchableOpacity>
+					</View>
+				</TouchableWithoutFeedback>
+			</ImageBackground>
 		);
 	}
 }
