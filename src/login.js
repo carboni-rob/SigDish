@@ -131,7 +131,7 @@ class Login extends Component {
 
 						<TouchableOpacity
 							style={styles.btn}
-							onPress={this.register.bind(this)}
+							onPress={this.login.bind(this)}
 						>
 							<Text style={styles.btn_text}>Submit</Text>
 						</TouchableOpacity>
