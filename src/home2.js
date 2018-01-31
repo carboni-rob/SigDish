@@ -1,13 +1,24 @@
 import React, { Component } from 'react';
-import { View, ScrollView, StatusBar, SafeAreaView } from 'react-native';
-import Carousel, { Pagination } from 'react-native-snap-carousel';
+import {
+	View,
+	Text,
+	TouchableOpacity,
+	StatusBar,
+	ImageBackground,
+	Dimensions
+} from 'react-native';
+import Carousel from 'react-native-snap-carousel';
 import { sliderWidth, itemWidth } from './styles/SliderEntry.style';
 import SliderEntry from './components/sliderEntry';
-import styles, { colors } from './styles/index.style';
-import { ENTRIES1 } from './static/entries';
+import styles from './theme/theme.js';
 import firebase from './config/firebase';
 
+const bgroundImg = require('./img/bground.jpg');
+const logo = require('./img/guido_outline_smile.png');
+
 const SLIDER_1_FIRST_ITEM = 1;
+const deviceWidth = Dimensions.get('window').width;
+const deviceHeight = Dimensions.get('window').height;
 
 class Home2 extends Component {
 
@@ -41,26 +52,13 @@ class Home2 extends Component {
 		});
 	}
 
-  _renderItemWithParallax({ item, index }, parallaxProps) {
-      return (
-          <SliderEntry
-            data={item}
-            even={(index + 1) % 2 === 0}
-            parallax
-            parallaxProps={parallaxProps}
-          />
-      );
-  }
-
-  mainExample() {
-      const { slider1ActiveSlide } = this.state;
-
+  recents() {
       return (
           <View style={styles.exampleContainer}>
               <Carousel
-                ref={c => this._slider1Ref = c}
+                ref={c => this.slider1Ref = c}
                 data={this.state.food}
-                renderItem={this._renderItemWithParallax}
+                renderItem={this.renderItemWithParallax}
                 sliderWidth={sliderWidth}
                 itemWidth={itemWidth}
                 hasParallaxImages
@@ -77,43 +75,63 @@ class Home2 extends Component {
                 autoplayInterval={3000}
                 onSnapToItem={(index) => this.setState({ slider1ActiveSlide: index })}
               />
-              <Pagination
-                dotsLength={this.state.food.length}
-                activeDotIndex={slider1ActiveSlide}
-                containerStyle={styles.paginationContainer}
-                dotColor={'rgba(255, 255, 255, 0.92)'}
-                dotStyle={styles.paginationDot}
-                inactiveDotColor={colors.black}
-                inactiveDotOpacity={0.4}
-                inactiveDotScale={0.6}
-                carouselRef={this._slider1Ref}
-                tappableDots={!!this._slider1Ref}
-              />
           </View>
       );
   }
 
-    render() {
-			const example1 = this.mainExample();
+	newPost() {
+		this.props.navigation.navigate('Post');
+	}
 
+	renderItemWithParallax({ item, index }, parallaxProps) {
       return (
-          <SafeAreaView style={styles.safeArea}>
-              <View style={styles.container}>
-                  <StatusBar
-                    translucent
-                    backgroundColor={'rgba(0, 0, 0, 0.3)'}
-                    barStyle={'light-content'}
-                  />
-                  <ScrollView
-                    style={styles.scrollview}
-                    scrollEventThrottle={200}
-                    directionalLockEnabled
-                  >
-                      { example1 }
-                  </ScrollView>
-              </View>
-          </SafeAreaView>
+          <SliderEntry
+            data={item}
+            even={(index + 1) % 2 === 0}
+            parallax
+            parallaxProps={parallaxProps}
+          />
       );
+  }
+
+  render() {
+		const slider = this.recents();
+
+    return (
+			<ImageBackground
+				source={bgroundImg}
+				style={[{ width: deviceWidth, height: deviceHeight },
+				styles.container, styles.center]}
+			>
+				<View style={{ justifyContent: 'space-between' }}>
+					<Text style={[styles.logo, { fontSize: 30 }]}>B!eat: the Food You Love</Text>
+					<View style={styles.center}>
+						<TouchableOpacity
+							style={styles.btn}
+							onPress={this.newPost.bind(this)}
+						>
+							<Text style={styles.btn_text}>New B!eat</Text>
+						</TouchableOpacity>
+						<TouchableOpacity
+							style={styles.btn2}
+							//onPress={this.register.bind(this)}
+						>
+							<Text style={styles.btn2_text}>Search</Text>
+						</TouchableOpacity>
+					</View>
+					<View style={styles.container}>
+            <StatusBar
+              translucent
+              barStyle={'dark-content'}
+            />
+						<Text style={[styles.logo, { fontSize: 22 }]}>
+							Your recent B!eats: Tap for details
+						</Text>
+						{ slider }
+					</View>
+				</View>
+      </ImageBackground>
+    );
   }
 }
 

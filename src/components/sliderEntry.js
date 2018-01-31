@@ -3,6 +3,7 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import { ParallaxImage } from 'react-native-snap-carousel';
 import styles from '../styles/SliderEntry.style';
+import IconSelector from './iconSelector';
 
 export default class SliderEntry extends Component {
 
@@ -12,6 +13,7 @@ export default class SliderEntry extends Component {
         parallax: PropTypes.bool,
         parallaxProps: PropTypes.object
     };
+
 
     get image() {
         const { data: { image }, parallax, parallaxProps, even } = this.props;
@@ -35,7 +37,9 @@ export default class SliderEntry extends Component {
     }
 
     render() {
-        const { data: { dish, place }, even } = this.props;
+        const { data: { dish, place, rating }, even } = this.props;
+        const iconImg = IconSelector(rating).iconImg;
+        console.log(iconImg);
 
         const uppercaseTitle = dish ? (
             <Text
@@ -49,12 +53,22 @@ export default class SliderEntry extends Component {
         return (
             <TouchableOpacity
               activeOpacity={1}
-              style={styles.slideInnerContainer}
+              style={[styles.slideInnerContainer]}
               onPress={() => { alert(`You've clicked '${dish}'`); }}
             >
                 <View style={[styles.imageContainer, even ? styles.imageContainerEven : {}]}>
                     { this.image }
                     <View style={[styles.radiusMask, even ? styles.radiusMaskEven : {}]} />
+                    <Image
+                      source={iconImg}
+                      style={{
+                        width: 48,
+                        height: 48,
+                        position: 'absolute',
+                        top: 0,
+                        left: 0
+                      }}
+                    />
                 </View>
                 <View style={[styles.textContainer, even ? styles.textContainerEven : {}]}>
                     { uppercaseTitle }

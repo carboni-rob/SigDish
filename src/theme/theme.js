@@ -5,11 +5,22 @@ const { StyleSheet } = React;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff'
+    paddingTop: 25
+    //backgroundColor: '#fff'
+  },
+  exampleContainer: {
+      paddingVertical: 10
   },
   foodPageContainer: {
     alignItems: 'center',
     justifyContent: 'space-between'
+  },
+  slider: {
+      marginTop: 0,
+      overflow: 'visible' // for custom animations
+  },
+  sliderContentContainer: {
+      paddingVertical: 0
   },
   ratingDetails: {
     flexDirection: 'row',

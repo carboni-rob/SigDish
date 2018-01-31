@@ -4,17 +4,17 @@ import { colors } from './index.style';
 const IS_IOS = Platform.OS === 'ios';
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 
-function wp (percentage) {
+function wp(percentage) {
     const value = (percentage * viewportWidth) / 100;
     return Math.round(value);
 }
 
-const slideHeight = viewportHeight * 0.36;
-const slideWidth = wp(75);
+const slideHeight = viewportHeight * 0.5;
+const slideWidth = wp(55);
 const itemHorizontalMargin = wp(2);
 
 export const sliderWidth = viewportWidth;
-export const itemWidth = slideWidth + itemHorizontalMargin * 2;
+export const itemWidth = slideWidth + (itemHorizontalMargin * 2);
 
 const entryBorderRadius = 8;
 
@@ -23,7 +23,7 @@ export default StyleSheet.create({
         width: itemWidth,
         height: slideHeight,
         paddingHorizontal: itemHorizontalMargin,
-        paddingBottom: 18 // needed for shadow
+        paddingBottom: 0 // needed for shadow
     },
     shadow: {
         position: 'absolute',
@@ -48,8 +48,8 @@ export default StyleSheet.create({
         backgroundColor: colors.black
     },
     image: {
-        ...StyleSheet.absoluteFillObject,
-        resizeMode: 'cover',
+        //...StyleSheet.absoluteFillObject,
+        resizeMode: 'contain',
         borderRadius: IS_IOS ? entryBorderRadius : 0,
         borderTopLeftRadius: entryBorderRadius,
         borderTopRightRadius: entryBorderRadius
