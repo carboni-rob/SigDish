@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
 	View,
 	Text,
-	TouchableOpacity,
 	StatusBar,
 	ImageBackground,
 	Dimensions
@@ -10,6 +9,8 @@ import {
 import Carousel from 'react-native-snap-carousel';
 import { sliderWidth, itemWidth } from './styles/SliderEntry.style';
 import SliderEntry from './components/sliderEntry';
+import Button1 from './components/button1';
+import Button2 from './components/button2';
 import styles from './theme/theme.js';
 import firebase from './config/firebase';
 
@@ -56,7 +57,7 @@ class Home2 extends Component {
       return (
           <View style={styles.exampleContainer}>
               <Carousel
-                ref={c => this.slider1Ref = c}
+                //ref={c => this.slider1Ref = c}
                 data={this.state.food}
                 renderItem={this.renderItemWithParallax}
                 sliderWidth={sliderWidth}
@@ -106,18 +107,14 @@ class Home2 extends Component {
 				<View style={{ justifyContent: 'space-between' }}>
 					<Text style={[styles.logo, { fontSize: 30 }]}>B!eat: the Food You Love</Text>
 					<View style={styles.center}>
-						<TouchableOpacity
-							style={styles.btn}
+						<Button1
+							text='New B!eat'
 							onPress={this.newPost.bind(this)}
-						>
-							<Text style={styles.btn_text}>New B!eat</Text>
-						</TouchableOpacity>
-						<TouchableOpacity
-							style={styles.btn2}
-							//onPress={this.register.bind(this)}
-						>
-							<Text style={styles.btn2_text}>Search</Text>
-						</TouchableOpacity>
+						/>
+						<Button2
+							text='Search'
+							//onPress={this.search.bind(this)}
+						/>
 					</View>
 					<View style={styles.container}>
             <StatusBar

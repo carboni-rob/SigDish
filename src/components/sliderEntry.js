@@ -39,7 +39,6 @@ export default class SliderEntry extends Component {
     render() {
         const { data: { dish, place, rating }, even } = this.props;
         const iconImg = IconSelector(rating).iconImg;
-        console.log(iconImg);
 
         const uppercaseTitle = dish ? (
             <Text

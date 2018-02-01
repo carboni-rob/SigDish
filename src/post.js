@@ -4,10 +4,14 @@ import {
   View,
   Text,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   TextInput,
   Image,
   ScrollView,
-  Dimensions
+  Dimensions,
+  ImageBackground,
+  Keyboard,
+  KeyboardAvoidingView
 } from 'react-native';
 import {
   ImagePicker,
@@ -15,17 +19,19 @@ import {
   Location,
   Permissions
 } from 'expo';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Modal from 'react-native-modal';
 import moment from 'moment';
 
 import firebase from './config/firebase';
 import Header from './components/header';
+import Button1 from './components/button1';
+import Button2 from './components/button2';
 import RateIcon from './components/rateIcon';
 import styles from './theme/theme.js';
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
+const bgroundImg = require('./img/bground.jpg');
 const pholderImg = require('./img/placeholder.jpg');
 
 class Post extends Component {
@@ -206,92 +212,105 @@ class Post extends Component {
       img = { uri: this.state.image };
     }
     return (
-      <KeyboardAwareScrollView style={styles.container}>
-        <Header
-          title="New Post"
-          left={this.back.bind(this)}
-          leftText={'Back'}
-          leftIcon={'back'}
-        />
-        <View style={styles.center}>
-          <TextInput
-            placeholder='What did you eat?'
-            style={styles.textInput}
-            onChangeText={(text) => this.setState({ dishname: text })}
-          />
-          <TouchableOpacity onPress={this.chooseImgSource.bind(this)}>
-            <Image
-              source={img}
-              style={{ width: deviceWidth, height: (deviceWidth * 0.5), borderRadius: 10 }}
-            />
-          </TouchableOpacity>
+      <ImageBackground
+				source={bgroundImg}
+				style={[{ width: deviceWidth, height: deviceHeight },
+				styles.container]}
+      >
+      <KeyboardAvoidingView behavior="position">
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View>
-            <Text style={styles.text}>{this.state.place.name}</Text>
-            <Text style={styles.text}>{this.state.place.address}</Text>
+            <Header
+              title="New B!eat"
+              left={this.back.bind(this)}
+              leftText={'Back'}
+              leftIcon={'back'}
+            />
+            <View style={styles.center}>
+              <TextInput
+                placeholder='What did you eat?'
+                style={styles.textInput}
+                onChangeText={(text) => this.setState({ dishname: text })}
+              />
+              <TouchableOpacity onPress={this.chooseImgSource.bind(this)}>
+                <Image
+                  source={img}
+                  style={{ width: deviceWidth, height: (deviceWidth * 0.5), borderRadius: 10 }}
+                />
+              </TouchableOpacity>
+              <View>
+                <Text style={styles.text}>{this.state.place.name}</Text>
+                <Text style={styles.text}>{this.state.place.address}</Text>
+              </View>
+              <Button1
+                text="Where?"
+                onPress={this.toggleModal}
+              />
+              <Modal isVisible={this.state.isModalVisible} style={styles.modal}>
+                <ScrollView style={{ height: deviceHeight * 0.2 }}>
+                  {Object.keys(this.state.nearby).map((key) => {
+                    const test = {
+                      address: this.state.nearby[key].vicinity,
+                      name: this.state.nearby[key].name
+                    };
+                    return (
+                      <TouchableOpacity
+                        key={key}
+                        style={{ padding: 20 }}
+                        onPress={() => this.setState({ place: test, isModalVisible: false })}
+                      >
+                        <Text style={styles.text}>{this.state.nearby[key].name}</Text>
+                        <Text style={styles.text}>{this.state.nearby[key].vicinity}</Text>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </ScrollView>
+              </Modal>
+              <View
+                style={{
+                  width: deviceWidth,
+                  flexDirection: 'row',
+                  justifyContent: 'space-around'
+                }}
+              >
+                <RateIcon
+                  rating={1}
+                  selected={() => this.chooseRating(1)}
+                  active={this.state.rating1}
+                />
+                <RateIcon
+                  rating={2}
+                  selected={() => this.chooseRating(2)}
+                  active={this.state.rating2}
+                />
+                <RateIcon
+                  rating={3}
+                  selected={() => this.chooseRating(3)}
+                  active={this.state.rating3}
+                />
+                <RateIcon
+                  rating={4}
+                  selected={() => this.chooseRating(4)}
+                  active={this.state.rating4}
+                />
+              </View>
+              <View>
+                <TextInput
+                  placeholder='Write a short description'
+                  style={styles.descInput}
+                  onChangeText={(text) => this.setState({ description: text })}
+                  onBlur={Keyboard.dismiss}
+                />
+              </View>
+              <Button2
+                text="B!eat it"
+                onPress={this.post.bind(this)}
+              />
+            </View>
           </View>
-          <TouchableOpacity onPress={this.toggleModal} style={styles.btn}>
-            <Text style={styles.text}>Choose a Restaurant</Text>
-          </TouchableOpacity>
-          <Modal isVisible={this.state.isModalVisible} style={styles.modal}>
-            <ScrollView style={{ height: deviceHeight * 0.2 }}>
-              {Object.keys(this.state.nearby).map((key) => {
-                const test = {
-                  address: this.state.nearby[key].vicinity,
-                  name: this.state.nearby[key].name
-                };
-                return (
-                  <TouchableOpacity
-                    key={key}
-                    style={{ padding: 20 }}
-                    onPress={() => this.setState({ place: test, isModalVisible: false })}
-                  >
-                    <Text style={styles.text}>{this.state.nearby[key].name}</Text>
-                    <Text style={styles.text}>{this.state.nearby[key].vicinity}</Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </ScrollView>
-          </Modal>
-          <View
-            style={{
-              width: deviceWidth,
-              flexDirection: 'row',
-              justifyContent: 'space-around'
-            }}
-          >
-            <RateIcon
-              rating={1}
-              selected={() => this.chooseRating(1)}
-              active={this.state.rating1}
-            />
-            <RateIcon
-              rating={2}
-              selected={() => this.chooseRating(2)}
-              active={this.state.rating2}
-            />
-            <RateIcon
-              rating={3}
-              selected={() => this.chooseRating(3)}
-              active={this.state.rating3}
-            />
-            <RateIcon
-              rating={4}
-              selected={() => this.chooseRating(4)}
-              active={this.state.rating4}
-            />
-          </View>
-          <View>
-            <TextInput
-              placeholder='Write a short description'
-              style={styles.descInput}
-              onChangeText={(text) => this.setState({ description: text })}
-            />
-          </View>
-          <TouchableOpacity style={styles.btn} onPress={this.post.bind(this)}>
-            <Text style={styles.text}>Post</Text>
-          </TouchableOpacity>
-        </View>
-      </KeyboardAwareScrollView>
+        </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
+      </ImageBackground>
     );
   }
 }
