@@ -5,7 +5,6 @@ import Login from './src/login';
 import LoginManager from './src/loginManager';
 import Register from './src/register';
 import Home from './src/home';
-import Home2 from './src/home2';
 import Post from './src/post';
 import FoodPage from './src/foodPage';
 
@@ -16,7 +15,7 @@ const logo = require('./src/img/guido_outline_smile.png');
 const LoginScreen = StackNavigator({
     Home: { screen: LoginManager },
     Register: { screen: Register },
-    HomeScreen: { screen: Home2 },
+    HomeScreen: { screen: Home },
     Post: { screen: Post },
     Login: { screen: Login },
     FoodPage: { screen: FoodPage }

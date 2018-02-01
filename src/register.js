@@ -13,6 +13,9 @@ import {
 	KeyboardAvoidingView
 } from 'react-native';
 
+import Button1 from './components/button1';
+import Button2 from './components/button2';
+
 import firebase from './config/firebase';
 import styles from './theme/theme.js';
 
@@ -96,19 +99,15 @@ class Register extends Component {
 							/>
 						</KeyboardAvoidingView>
 
-						<TouchableOpacity
-							style={styles.btn}
+						<Button1
+							text="Register"
 							onPress={this.register.bind(this)}
-						>
-							<Text style={styles.btn_text}>Register</Text>
-						</TouchableOpacity>
+						/>
 						<Text>or</Text>
-						<TouchableOpacity
-							style={styles.btn2}
+						<Button2
+							text="Login"
 							onPress={this.login.bind(this)}
-						>
-							<Text style={styles.btn2_text}>Login</Text>
-						</TouchableOpacity>
+						/>
 					</View>
 				</TouchableWithoutFeedback>
 			</ImageBackground>

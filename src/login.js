@@ -4,7 +4,6 @@ import {
 	Text,
 	TextInput,
 	Alert,
-	TouchableOpacity,
 	Switch,
 	Image,
 	ImageBackground,
@@ -14,6 +13,9 @@ import {
 	Keyboard
 } from 'react-native';
 import * as firebase from 'firebase';
+
+import Button1 from './components/button1';
+import Button2 from './components/button2';
 
 import firebaseApp from './config/firebase';
 import styles from './theme/theme.js';
@@ -126,22 +128,18 @@ class Login extends Component {
 								onValueChange={() => this.setState({ stayLogged: !this.state.stayLogged })}
 								style={styles.switchStyle}
 							/>
-							<Text> Remember Me</Text>
+							<Text style={{ backgroundColor: 'transparent' }}> Remember Me</Text>
 						</View>
 
-						<TouchableOpacity
-							style={styles.btn}
+						<Button1
+							text="Submit"
 							onPress={this.login.bind(this)}
-						>
-							<Text style={styles.btn_text}>Submit</Text>
-						</TouchableOpacity>
+						/>
 						<Text>or</Text>
-						<TouchableOpacity
-							style={styles.btn2}
+						<Button2
+							text="Register"
 							onPress={this.register.bind(this)}
-						>
-							<Text style={styles.btn2_text}>Register</Text>
-						</TouchableOpacity>
+						/>
 					</View>
 				</TouchableWithoutFeedback>
 			</ImageBackground>

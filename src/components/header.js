@@ -4,15 +4,28 @@ import {
 	Text,
 	TouchableOpacity
 } from 'react-native';
-import { Entypo, Ionicons } from '@expo/vector-icons';
 
-import styles from '../theme/theme.js';
+import { Entypo, Ionicons } from '@expo/vector-icons';
 
 class Header extends Component {
 	render() {
 		return (
-				<View style={styles.header}>
-					<View style={styles.headerLeft}>
+				<View
+					style={{
+						flexDirection: 'row',
+						alignItems: 'center',
+						justifyContent: 'space-between',
+						height: 25,
+						marginTop: 0,
+						paddingHorizontal: 10
+					}}
+				>
+					<View
+						style={{
+							flex: 1,
+							alignItems: 'flex-start'
+						}}
+					>
 						<TouchableOpacity
 							onPress={this.props.left}
 							style={{
@@ -27,13 +40,45 @@ class Header extends Component {
 								size={22}
 								color="#C00000"
 							/>
-							<Text style={styles.headerText}>{this.props.leftText}</Text>
+							<Text
+								style={{
+									textAlign: 'center',
+									fontFamily: 'lobsterReg',
+									backgroundColor: 'transparent',
+									color: '#C00000',
+									fontWeight: 'bold',
+									fontSize: 20
+								}}
+							>
+								{this.props.leftText}
+							</Text>
 						</TouchableOpacity>
 					</View>
-					<View style={styles.headerCenter}>
-						<Text style={styles.pageTitle}>{this.props.title}</Text>
+					<View
+						style={{
+							flex: 1,
+							alignItems: 'center',
+						}}
+					>
+						<Text
+						style={{
+							justifyContent: 'center',
+							color: '#C00000',
+							backgroundColor: 'transparent',
+							fontSize: 24,
+							textAlign: 'center',
+							fontFamily: 'lobsterReg'
+						}}
+						>
+							{this.props.title}
+						</Text>
 					</View>
-					<View style={styles.headerRight}>
+					<View
+						style={{
+							flex: 1,
+							justifyContent: 'flex-end',
+						}}
+					>
 						<TouchableOpacity
 							onPress={this.props.right}
 							style={{
@@ -43,8 +88,22 @@ class Header extends Component {
 								justifyContent: 'flex-end'
 							}}
 						>
-							<Ionicons name={this.props.rightIcon} size={32} color="#4a79c4" />
-							<Text style={styles.headerText}>{this.props.rightText}</Text>
+							<Ionicons
+								name={this.props.rightIcon}
+								size={32} color="#4a79c4"
+							/>
+							<Text
+								style={{
+									textAlign: 'center',
+									fontFamily: 'lobsterReg',
+									backgroundColor: 'transparent',
+									color: '#C00000',
+									fontWeight: 'bold',
+									fontSize: 16
+								}}
+							>
+								{this.props.rightText}
+							</Text>
 						</TouchableOpacity>
 					</View>
 				</View>

@@ -23,7 +23,7 @@ export default StyleSheet.create({
         width: itemWidth,
         height: slideHeight,
         paddingHorizontal: itemHorizontalMargin,
-        paddingBottom: 0 // needed for shadow
+        paddingBottom: 18 // needed for shadow
     },
     shadow: {
         position: 'absolute',
@@ -48,8 +48,8 @@ export default StyleSheet.create({
         backgroundColor: colors.black
     },
     image: {
-        //...StyleSheet.absoluteFillObject,
-        resizeMode: 'contain',
+        ...StyleSheet.absoluteFillObject,
+        resizeMode: 'cover',
         borderRadius: IS_IOS ? entryBorderRadius : 0,
         borderTopLeftRadius: entryBorderRadius,
         borderTopRightRadius: entryBorderRadius

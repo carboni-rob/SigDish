@@ -2,40 +2,40 @@ import React, { Component } from 'react';
 import {
 	View,
 	Text,
-	ActivityIndicator,
-	FlatList,
+	StatusBar,
+	ImageBackground,
 	Dimensions
 } from 'react-native';
-
-import firebase from './config/firebase';
-import Header from './components/header';
-import FoodCard from './components/foodCard';
-import Search from './components/search';
-import Iconsearch from './components/iconSearch';
+import Carousel from 'react-native-snap-carousel';
+import { sliderWidth, itemWidth } from './styles/SliderEntry.style';
+import SliderEntry from './components/sliderEntry';
+import Button1 from './components/button1';
+import Button2 from './components/button2';
 import styles from './theme/theme.js';
+import firebase from './config/firebase';
 
+const bgroundImg = require('./img/bground.jpg');
+const logo = require('./img/guido_outline_smile.png');
+
+const SLIDER_1_FIRST_ITEM = 1;
+const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
 
-
-class Home extends Component {
+class Home2 extends Component {
 
 	static navigationOptions = {
 			header: null,
 			gesturesEnabled: false
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			food: [],
-			filteredFood: [],
-			isLoading: true,
-			searchIsOpen: false,
-			dishSearchString: '',
-			restaurantSearchString: '',
-			ratingSearch: '1234'
-		};
-	}
+  constructor(props) {
+      super(props);
+      this.state = {
+        slider1ActiveSlide: SLIDER_1_FIRST_ITEM,
+				food: [],
+				isLoading: true
+      };
+  }
 
 	componentDidMount() {
 		this.getFood();
@@ -49,100 +49,87 @@ class Home extends Component {
 				items.push(item);
 			});
 			items.reverse();
-			this.setState({ food: items, filteredFood: items, isLoading: false });
+			this.setState({ food: items, isLoading: false });
 		});
 	}
+
+  recents() {
+      return (
+          <View style={styles.exampleContainer}>
+              <Carousel
+                //ref={c => this.slider1Ref = c}
+                data={this.state.food}
+                renderItem={this.renderItemWithParallax}
+                sliderWidth={sliderWidth}
+                itemWidth={itemWidth}
+                hasParallaxImages
+                firstItem={SLIDER_1_FIRST_ITEM}
+                inactiveSlideScale={0.94}
+                inactiveSlideOpacity={0.7}
+                // inactiveSlideShift={20}
+                containerCustomStyle={styles.slider}
+                contentContainerCustomStyle={styles.sliderContentContainer}
+                loop
+                loopClonesPerSide={2}
+                autoplay
+                autoplayDelay={500}
+                autoplayInterval={3000}
+                onSnapToItem={(index) => this.setState({ slider1ActiveSlide: index })}
+              />
+          </View>
+      );
+  }
 
 	newPost() {
 		this.props.navigation.navigate('Post');
 	}
 
-	render() {
-		const { navigate } = this.props.navigation;
-		const foodArray = this.state.food.filter(
-			food => food.dish.includes(this.state.dishSearchString) &&
-			food.place.includes(this.state.restaurantSearchString) &&
-			this.state.ratingSearch.includes(food.rating)
-		);
+	renderItemWithParallax({ item, index }, parallaxProps) {
+      return (
+          <SliderEntry
+            data={item}
+            even={(index + 1) % 2 === 0}
+            parallax
+            parallaxProps={parallaxProps}
+          />
+      );
+  }
 
-		return (
-			<View style={styles.container}>
-				<Header
-					title="SigDish_V0.01"
-					left={this.newPost.bind(this)}
-					leftText={'New'}
-					leftIcon={'new-message'}
-					right={() => this.setState({
-						searchIsOpen: !this.state.searchIsOpen,
-						dishSearchString: '',
-						restaurantSearchString: '',
-						ratingSearch: '1234'
-					})}
-					rightText={'Search'}
-					rightIcon={this.state.searchIsOpen ? 'md-close' : 'ios-search'}
-				/>
-				{this.state.searchIsOpen &&
-					<View>
-						<Search
-							focus
-							searchType='By Dish'
-							srchString={this.state.dishSearchString}
-							pholder={'Search by dish'}
-							txtChange={(text) => this.setState({ dishSearchString: text })}
+  render() {
+		const slider = this.recents();
+
+    return (
+			<ImageBackground
+				source={bgroundImg}
+				style={[{ width: deviceWidth, height: deviceHeight },
+				styles.container, styles.center]}
+			>
+				<View style={{ justifyContent: 'space-between' }}>
+					<Text style={[styles.logo, { fontSize: 30 }]}>B!eat: the Food You Love</Text>
+					<View style={styles.center}>
+						<Button1
+							text='New B!eat'
+							onPress={this.newPost.bind(this)}
 						/>
-						<Search
-							searchType='Restaurant'
-							srchString={this.state.restaurantSearchString}
-							pholder={'Search by Restaurant'}
-							txtChange={(text) => this.setState({ restaurantSearchString: text })}
-						/>
-						<Iconsearch
-							searchType='By Rating'
-							select1={() => this.setState({ ratingSearch: '1' })}
-							select2={() => this.setState({ ratingSearch: '2' })}
-							select3={() => this.setState({ ratingSearch: '3' })}
-							select4={() => this.setState({ ratingSearch: '4' })}
+						<Button2
+							text='Search'
+							//onPress={this.search.bind(this)}
 						/>
 					</View>
-				}
-
-				{this.state.isLoading
-					? <ActivityIndicator
-							size='large'
-							color='#4a79c4'
-							style={{ marginTop: deviceHeight / 3 }}
-					/>
-					: (foodArray.length === 0
-						? <Text>There are no dishes matching this search</Text>
-						: null
-					)
-				}
-
-				<FlatList
-					keyExtractor={item => item.image}
-					data={foodArray}
-					renderItem={({ item }) => (
-						<FoodCard
-							rating={item.rating}
-							date={item.date}
-							foodName={item.dish}
-							foodPlace={item.place}
-							image={item.image}
-							description={item.description}
-							select={() => navigate('FoodPage', {
-								rating: item.rating,
-								date: item.date,
-								foodName: item.dish,
-								foodPlace: item.place,
-								image: item.image,
-								description: item.description
-							})}
-						/>
-					)}
-				/>
-			</View>
-		);
-	}
+					<View style={styles.container}>
+            <StatusBar
+              translucent
+              barStyle={'dark-content'}
+            />
+						<Text style={[styles.logo, { fontSize: 22 }]}>
+							Your recent B!eats: Tap for details
+						</Text>
+						{ slider }
+					</View>
+				</View>
+      </ImageBackground>
+    );
+  }
 }
 
-export default Home;
+export default Home2;
