@@ -13,7 +13,10 @@ class Button1 extends Component {
           margin: 10,
           borderRadius: 5,
           width: 150,
-          backgroundColor: '#C00000'
+          backgroundColor: '#C00000',
+          shadowOffset: { width: 5, height: 5, },
+          shadowColor: 'black',
+          shadowOpacity: 0.7
         }}
         onPress={this.props.onPress}
       >

@@ -55,7 +55,13 @@ export default class SliderEntry extends Component {
               style={[styles.slideInnerContainer]}
               onPress={() => { alert(`You've clicked '${dish}'`); }}
             >
-                <View style={[styles.imageContainer, even ? styles.imageContainerEven : {}]}>
+            <View style={styles.shadow}>
+                <View
+                  style={[
+                    styles.imageContainer,
+                    even ? styles.imageContainerEven : {}
+                  ]}
+                >
                     { this.image }
                     <View style={[styles.radiusMask, even ? styles.radiusMaskEven : {}]} />
                     <Image
@@ -78,6 +84,7 @@ export default class SliderEntry extends Component {
                         { place }
                     </Text>
                 </View>
+              </View>
             </TouchableOpacity>
         );
     }

@@ -15,7 +15,10 @@ class Button2 extends Component {
           width: 150,
           backgroundColor: '#fff',
           borderWidth: 2,
-          borderColor: '#C00000'
+          borderColor: '#C00000',
+          shadowOffset: { width: 5, height: 5, },
+          shadowColor: '#000',
+          shadowOpacity: 0.7
         }}
         onPress={this.props.onPress}
       >

@@ -32,7 +32,7 @@ export default StyleSheet.create({
         right: itemHorizontalMargin,
         bottom: 18,
         shadowColor: colors.black,
-        shadowOpacity: 0.25,
+        shadowOpacity: 1,
         shadowOffset: { width: 0, height: 10 },
         shadowRadius: 10,
         borderRadius: entryBorderRadius
