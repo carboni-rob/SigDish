@@ -243,7 +243,7 @@ class Post extends Component {
         />
       );
     } return (
-        <View>
+        <View style={{ flex: 1 }}>
           <Text style={[styles.text, { fontWeight: 'bold' }]}>
             {this.state.place.name}
           </Text>
@@ -253,7 +253,6 @@ class Post extends Component {
   }
 
   modalRender() {
-    console.log(this.state.nearby);
     if (this.state.isModalVisible === true) {
       return (
           <View style={styles.modal}>
@@ -272,6 +271,7 @@ class Post extends Component {
               longitudeDelta: 0.0021,
             }}
             showsUserLocation
+            showsPointsOfInterest={false}
           >
             {this.state.nearby.map(marker => (
               <MapView.Marker
@@ -282,6 +282,10 @@ class Post extends Component {
                 }}
                 title={marker.name}
                 description={marker.vicinity}
+                onCalloutPress={() => this.setState({
+                  place: { name: marker.name, address: marker.vicinity },
+                  isModalVisible: false
+                })}
               />
             ))}
           </MapView>
