@@ -1,3 +1,8 @@
+import { Dimensions } from 'react-native';
+
+const deviceWidth = Dimensions.get('window').width;
+const inputWidth = deviceWidth - 40;
+
 const React = require('react-native');
 
 const { StyleSheet } = React;
@@ -58,15 +63,35 @@ const styles = StyleSheet.create({
     paddingTop: 25
     //backgroundColor: '#fff'
   },
+  dishInput: {
+    width: inputWidth,
+    fontSize: 20,
+    color: '#C00000',
+    margin: 20,
+    padding: 10,
+    textAlign: 'center',
+    fontFamily: 'lobsterReg',
+    borderRadius: 5,
+    borderColor: '#C00000',
+    backgroundColor: '#fff',
+    borderWidth: 2,
+    shadowOffset: { width: 5, height: 5, },
+    shadowColor: 'black',
+    shadowOpacity: 0.7
+  },
   descInput: {
-    width: 300,
+    width: inputWidth,
     height: 80,
     fontFamily: 'GillSans-Light',
-    borderColor: '#c9c9c9',
-    borderWidth: 1,
+    borderColor: '#C00000',
+    backgroundColor: '#fff',
+    borderWidth: 2,
     borderRadius: 10,
     margin: 10,
-    padding: 10
+    padding: 10,
+    shadowOffset: { width: 5, height: 5, },
+    shadowColor: 'black',
+    shadowOpacity: 0.7
   },
   exampleContainer: {
       paddingVertical: 10
@@ -74,6 +99,14 @@ const styles = StyleSheet.create({
   foodPageContainer: {
     alignItems: 'center',
     justifyContent: 'space-between'
+  },
+  header2: {
+    marginTop: 20,
+    fontSize: 22,
+    color: '#C00000',
+    backgroundColor: 'transparent',
+    textAlign: 'center',
+    fontFamily: 'lobsterReg'
   },
   homeRating: {
     borderColor: '#000',
@@ -84,6 +117,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 30,
     left: 15
+  },
+  imagePicker: {
+    width: (inputWidth / 2) - 10,
+    height: (inputWidth / 2) - 10,
+    marginRight: 10,
+    borderRadius: 10
   },
   line: {
     borderColor: '#000',
@@ -103,9 +142,35 @@ const styles = StyleSheet.create({
   modal: {
     backgroundColor: '#fff'
   },
+  placePicker: {
+    width: (inputWidth / 2) - 10,
+    height: (inputWidth / 2) - 10,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 10,
+    marginLeft: 10,
+    borderColor: '#C00000',
+    backgroundColor: '#fff',
+    borderWidth: 2,
+    borderRadius: 10,
+    shadowOffset: { width: 5, height: 5, },
+    shadowColor: 'black',
+    shadowOpacity: 0.7
+  },
+  post23components: {
+    width: inputWidth,
+    height: (inputWidth / 2) - 10,
+    flexDirection: 'row'
+  },
   ratingDetails: {
     flexDirection: 'row',
     alignItems: 'center'
+  },
+  shadow: {
+    borderRadius: 10,
+    shadowOffset: { width: 5, height: 5, },
+    shadowColor: 'black',
+    shadowOpacity: 0.7
   },
   slider: {
       marginTop: 0,
@@ -116,12 +181,14 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: 'center',
-    fontFamily: 'GillSans-Light'
+    fontFamily: 'GillSans-Light',
+    color: '#fff'
   },
   textBig: {
     textAlign: 'center',
-    fontFamily: 'GillSans-Light',
-    fontSize: 18
+    fontFamily: 'lobsterReg',
+    fontSize: 20,
+    color: '#C00000'
   },
   textInput: {
     width: 200,

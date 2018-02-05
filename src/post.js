@@ -32,7 +32,8 @@ import styles from './theme/theme.js';
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
 const bgroundImg = require('./img/bground.jpg');
-const pholderImg = require('./img/placeholder.jpg');
+const pholderImg = require('./img/picturePholder.jpg');
+const mapIcon = require('./img/mapIcon.png');
 
 class Post extends Component {
 
@@ -48,6 +49,7 @@ class Post extends Component {
       isModalVisible: false,
       description: '',
       dishname: '',
+      nameFocused: false,
       image: '',
       image64: '',
       place: {
@@ -96,6 +98,7 @@ class Post extends Component {
       [
         { text: 'Take a Picture', onPress: () => this.takePhoto() },
         { text: 'Choose from Album', onPress: () => this.choosePhoto() },
+        { text: 'Cancel', style: 'cancel' }
       ],
       { cancelable: true }
     );
@@ -204,7 +207,48 @@ class Post extends Component {
 
   toggleModal = () => this.setState({ isModalVisible: !this.state.isModalVisible });
 
+  commentRender() {
+    if (this.state.nameFocused !== true) {
+      return (
+          <KeyboardAvoidingView
+            behavior="position"
+            keyboardVerticalOffset={50}
+          >
+            <TextInput
+              placeholder='5. Write a short description (optional)'
+              multiline
+              numberOfLines={4}
+              maxLength={140}
+              style={styles.descInput}
+              onChangeText={(text) => this.setState({ description: text })}
+              onBlur={Keyboard.dismiss}
+            />
+          </KeyboardAvoidingView>
+      );
+    } return null;
+  }
+
+  placeRender() {
+    if (this.state.place.name === '') {
+      return (
+        <Image
+          source={mapIcon}
+          style={{ height: 80, width: 80 }}
+        />
+      );
+    } return (
+        <View>
+          <Text style={[styles.text, { fontWeight: 'bold' }]}>
+            {this.state.place.name}
+          </Text>
+          <Text style={styles.text}>{this.state.place.address}</Text>
+        </View>
+      );
+  }
+
   render() {
+    const comment = this.commentRender();
+    const place = this.placeRender();
     let img;
     if (this.state.image === '') {
       img = pholderImg;
@@ -217,7 +261,6 @@ class Post extends Component {
 				style={[{ width: deviceWidth, height: deviceHeight },
 				styles.container]}
       >
-      <KeyboardAvoidingView behavior="position">
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View>
             <Header
@@ -228,24 +271,34 @@ class Post extends Component {
             />
             <View style={styles.center}>
               <TextInput
-                placeholder='What did you eat?'
-                style={styles.textInput}
+                placeholder='1. What did you eat?'
+                style={styles.dishInput}
                 onChangeText={(text) => this.setState({ dishname: text })}
+                onFocus={() => this.setState({ nameFocused: true })}
+                onBlur={() => this.setState({ nameFocused: false })}
               />
-              <TouchableOpacity onPress={this.chooseImgSource.bind(this)}>
-                <Image
-                  source={img}
-                  style={{ width: 150, height: 150, borderRadius: 10 }}
-                />
-              </TouchableOpacity>
-              <View>
-                <Text style={styles.text}>{this.state.place.name}</Text>
-                <Text style={styles.text}>{this.state.place.address}</Text>
+
+                <View style={styles.post23components}>
+                  <TouchableOpacity
+                    style={[styles.imagePicker, styles.shadow]}
+                    onPress={this.chooseImgSource.bind(this)}
+                  >
+                    <Image
+                      source={img}
+                      style={styles.imagePicker}
+                    />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    onPress={this.toggleModal.bind(this)}
+                  >
+                  <View style={styles.placePicker} >
+                    <Text style={styles.textBig}>3. Where?</Text>
+                    { place }
+                  </View>
+                </TouchableOpacity>
               </View>
-              <Button1
-                text="Where?"
-                onPress={this.toggleModal}
-              />
+
               <Modal isVisible={this.state.isModalVisible} style={styles.modal}>
                 <ScrollView style={{ height: deviceHeight * 0.2 }}>
                   {Object.keys(this.state.nearby).map((key) => {
@@ -266,50 +319,48 @@ class Post extends Component {
                   })}
                 </ScrollView>
               </Modal>
-              <View
-                style={{
-                  width: deviceWidth,
-                  flexDirection: 'row',
-                  justifyContent: 'space-around'
-                }}
-              >
-                <RateIcon
-                  rating={1}
-                  selected={() => this.chooseRating(1)}
-                  active={this.state.rating1}
-                />
-                <RateIcon
-                  rating={2}
-                  selected={() => this.chooseRating(2)}
-                  active={this.state.rating2}
-                />
-                <RateIcon
-                  rating={3}
-                  selected={() => this.chooseRating(3)}
-                  active={this.state.rating3}
-                />
-                <RateIcon
-                  rating={4}
-                  selected={() => this.chooseRating(4)}
-                  active={this.state.rating4}
-                />
-              </View>
+
               <View>
-                <TextInput
-                  placeholder='Write a short description'
-                  style={styles.descInput}
-                  onChangeText={(text) => this.setState({ description: text })}
-                  onBlur={Keyboard.dismiss}
-                />
+                <Text style={styles.header2}>4. Give it a rating:</Text>
+                <View
+                  style={{
+                    width: deviceWidth,
+                    flexDirection: 'row',
+                    justifyContent: 'space-around'
+                  }}
+                >
+                  <RateIcon
+                    rating={1}
+                    selected={() => this.chooseRating(1)}
+                    active={this.state.rating1}
+                  />
+                  <RateIcon
+                    rating={2}
+                    selected={() => this.chooseRating(2)}
+                    active={this.state.rating2}
+                  />
+                  <RateIcon
+                    rating={3}
+                    selected={() => this.chooseRating(3)}
+                    active={this.state.rating3}
+                  />
+                  <RateIcon
+                    rating={4}
+                    selected={() => this.chooseRating(4)}
+                    active={this.state.rating4}
+                  />
+                </View>
               </View>
-              <Button2
+
+              { comment }
+
+              <Button1
                 text="B!eat it"
                 onPress={this.post.bind(this)}
               />
             </View>
           </View>
         </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
       </ImageBackground>
     );
   }
