@@ -7,7 +7,6 @@ import {
   TouchableWithoutFeedback,
   TextInput,
   Image,
-  ScrollView,
   Dimensions,
   ImageBackground,
   Keyboard,
@@ -17,9 +16,9 @@ import {
   ImagePicker,
   ImageManipulator,
   Location,
-  Permissions
+  Permissions,
+  MapView
 } from 'expo';
-import Modal from 'react-native-modal';
 import moment from 'moment';
 
 import firebase from './config/firebase';
@@ -45,6 +44,8 @@ class Post extends Component {
     super(props);
     this.chooseRating = this.chooseRating.bind(this);
     this.state = {
+      latitude: '',
+      longitude: '',
       date: '',
       isModalVisible: false,
       description: '',
@@ -77,12 +78,13 @@ class Post extends Component {
     const { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
       this.setState({
-        errorMessage: 'Permission to access location was denied',
+        errorMessage: 'Permission to access location was denied'
       });
     }
 
     const location = await Location.getCurrentPositionAsync({});
     const coords = `${location.coords.latitude},${location.coords.longitude}`;
+    this.setState({ latitude: location.coords.latitude, longitude: location.coords.longitude });
     const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${coords}&radius=500&type=restaurant&key=AIzaSyCO7j-QXjV5zJwmKqkdVPoXDyv4SPOX7fU`;
     fetch(url, { method: 'GET' })
       .then((response) => response.json())
@@ -250,34 +252,51 @@ class Post extends Component {
   }
 
   modalRender() {
-    return (
-      <Modal isVisible={this.state.isModalVisible} style={styles.modal}>
-        <ScrollView style={{ height: deviceHeight * 0.2 }}>
-          {Object.keys(this.state.nearby).map((key) => {
-            const restaurant = {
-              address: this.state.nearby[key].vicinity,
-              name: this.state.nearby[key].name
-            };
-            return (
-              <TouchableOpacity
-                key={key}
-                style={{ padding: 20 }}
-                onPress={() => this.setState({ place: restaurant, isModalVisible: false })}
-              >
-                <Text style={styles.text}>{this.state.nearby[key].name}</Text>
-                <Text style={styles.text}>{this.state.nearby[key].vicinity}</Text>
-              </TouchableOpacity>
-            );
-          })}
-        </ScrollView>
-        <Button2
-          text='Cancel'
-          onPress={() => this.setState({ isModalVisible: false })}
-          style={{ position: 'absolute', alignSelf: 'center', bottom: 20 }}
-        />
-      </Modal>
-    );
+    if (this.state.isModalVisible === true) {
+      return (
+          <View style={styles.modal}>
+          <MapView
+            style={{
+              position: 'absolute',
+              top: 0,
+              bottom: 0,
+              left: 0,
+              right: 0
+            }}
+            initialRegion={{
+              latitude: this.state.latitude,
+              longitude: this.state.longitude,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }}
+          />
+          <Button2
+            text='Cancel'
+            onPress={() => this.setState({ isModalVisible: false })}
+          />
+          </View>
+      );
+    } return null;
   }
+
+  /*<ScrollView style={{ height: deviceHeight * 0.2 }}>
+    {Object.keys(this.state.nearby).map((key) => {
+      const restaurant = {
+        address: this.state.nearby[key].vicinity,
+        name: this.state.nearby[key].name
+      };
+      return (
+        <TouchableOpacity
+          key={key}
+          style={{ padding: 20 }}
+          onPress={() => this.setState({ place: restaurant, isModalVisible: false })}
+        >
+          <Text style={styles.text}>{this.state.nearby[key].name}</Text>
+          <Text style={styles.text}>{this.state.nearby[key].vicinity}</Text>
+        </TouchableOpacity>
+      );
+    })}
+  </ScrollView>*/
 
   render() {
     const comment = this.commentRender();
@@ -296,6 +315,7 @@ class Post extends Component {
 				style={[{ width: deviceWidth, height: deviceHeight },
 				styles.container]}
       >
+        { modal }
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View>
             <Header
@@ -334,9 +354,6 @@ class Post extends Component {
                   </View>
                 </TouchableOpacity>
               </View>
-
-              { modal }
-
               <View>
                 <Text style={styles.header2}>4. Give it a rating:</Text>
                 <View

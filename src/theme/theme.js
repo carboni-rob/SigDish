@@ -1,6 +1,7 @@
 import { Dimensions } from 'react-native';
 
 const deviceWidth = Dimensions.get('window').width;
+const deviceHeight = Dimensions.get('window').height;
 const inputWidth = deviceWidth - 40;
 
 const React = require('react-native');
@@ -140,8 +141,12 @@ const styles = StyleSheet.create({
     fontSize: 84
   },
   modal: {
-    backgroundColor: '#fff',
-    alignItems: 'center'
+    zIndex: 100,
+    width: deviceWidth,
+    height: deviceHeight,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: 20
   },
   placePicker: {
     width: (inputWidth / 2) - 10,
