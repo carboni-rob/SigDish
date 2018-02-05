@@ -168,7 +168,7 @@ class Post extends Component {
   confirmEntry() {
     Alert.alert(
       'Please confirm',
-      'Publish this dish now?',
+      'Publish this B!eat now?',
       [
         { text: 'Not now', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
         { text: 'Yes', onPress: () => this.pushContent() },
@@ -216,9 +216,12 @@ class Post extends Component {
           >
             <TextInput
               placeholder='5. Write a short description (optional)'
+              value={this.state.description}
               multiline
               numberOfLines={4}
               maxLength={140}
+              returnKeyType='done'
+              blurOnSubmit
               style={styles.descInput}
               onChangeText={(text) => this.setState({ description: text })}
               onBlur={Keyboard.dismiss}
@@ -272,6 +275,7 @@ class Post extends Component {
             <View style={styles.center}>
               <TextInput
                 placeholder='1. What did you eat?'
+                value={this.state.dishname}
                 style={styles.dishInput}
                 onChangeText={(text) => this.setState({ dishname: text })}
                 onFocus={() => this.setState({ nameFocused: true })}
