@@ -37,7 +37,8 @@ const mapIcon = require('./img/mapIcon.png');
 class Post extends Component {
 
   static navigationOptions = {
-    header: null
+    header: null,
+    gesturesEnabled: false
   };
 
   constructor(props) {
@@ -252,6 +253,7 @@ class Post extends Component {
   }
 
   modalRender() {
+    console.log(this.state.nearby);
     if (this.state.isModalVisible === true) {
       return (
           <View style={styles.modal}>
@@ -269,7 +271,28 @@ class Post extends Component {
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0421,
             }}
-          />
+            showsUserLocation
+          >
+            <MapView.Marker
+              coordinate={{
+                latitude: this.state.latitude,
+                longitude: this.state.longitude,
+              }}
+              title={'Test'}
+              description={'Restaurant My Ass'}
+            />
+            {this.state.nearby.map(marker => (
+              <MapView.Marker
+                key={marker.id}
+                coordinate={{
+                  latitude: marker.geometry.location.lat,
+                  longitude: marker.geometry.location.lng
+                }}
+                title={marker.name}
+                description={marker.vicinity}
+              />
+            ))}
+          </MapView>
           <Button2
             text='Cancel'
             onPress={() => this.setState({ isModalVisible: false })}
@@ -278,25 +301,6 @@ class Post extends Component {
       );
     } return null;
   }
-
-  /*<ScrollView style={{ height: deviceHeight * 0.2 }}>
-    {Object.keys(this.state.nearby).map((key) => {
-      const restaurant = {
-        address: this.state.nearby[key].vicinity,
-        name: this.state.nearby[key].name
-      };
-      return (
-        <TouchableOpacity
-          key={key}
-          style={{ padding: 20 }}
-          onPress={() => this.setState({ place: restaurant, isModalVisible: false })}
-        >
-          <Text style={styles.text}>{this.state.nearby[key].name}</Text>
-          <Text style={styles.text}>{this.state.nearby[key].vicinity}</Text>
-        </TouchableOpacity>
-      );
-    })}
-  </ScrollView>*/
 
   render() {
     const comment = this.commentRender();
