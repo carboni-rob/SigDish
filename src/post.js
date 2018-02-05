@@ -268,19 +268,11 @@ class Post extends Component {
             initialRegion={{
               latitude: this.state.latitude,
               longitude: this.state.longitude,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
+              latitudeDelta: 0.0122,
+              longitudeDelta: 0.0021,
             }}
             showsUserLocation
           >
-            <MapView.Marker
-              coordinate={{
-                latitude: this.state.latitude,
-                longitude: this.state.longitude,
-              }}
-              title={'Test'}
-              description={'Restaurant My Ass'}
-            />
             {this.state.nearby.map(marker => (
               <MapView.Marker
                 key={marker.id}
