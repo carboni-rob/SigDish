@@ -249,9 +249,41 @@ class Post extends Component {
       );
   }
 
+  modalRender() {
+    return (
+      <Modal isVisible={this.state.isModalVisible} style={styles.modal}>
+        <ScrollView style={{ height: deviceHeight * 0.2 }}>
+          {Object.keys(this.state.nearby).map((key) => {
+            const restaurant = {
+              address: this.state.nearby[key].vicinity,
+              name: this.state.nearby[key].name
+            };
+            return (
+              <TouchableOpacity
+                key={key}
+                style={{ padding: 20 }}
+                onPress={() => this.setState({ place: restaurant, isModalVisible: false })}
+              >
+                <Text style={styles.text}>{this.state.nearby[key].name}</Text>
+                <Text style={styles.text}>{this.state.nearby[key].vicinity}</Text>
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
+        <Button2
+          text='Cancel'
+          onPress={() => this.setState({ isModalVisible: false })}
+          style={{ position: 'absolute', alignSelf: 'center', bottom: 20 }}
+        />
+      </Modal>
+    );
+  }
+
   render() {
     const comment = this.commentRender();
     const place = this.placeRender();
+    const modal = this.modalRender();
+
     let img;
     if (this.state.image === '') {
       img = pholderImg;
@@ -303,26 +335,7 @@ class Post extends Component {
                 </TouchableOpacity>
               </View>
 
-              <Modal isVisible={this.state.isModalVisible} style={styles.modal}>
-                <ScrollView style={{ height: deviceHeight * 0.2 }}>
-                  {Object.keys(this.state.nearby).map((key) => {
-                    const test = {
-                      address: this.state.nearby[key].vicinity,
-                      name: this.state.nearby[key].name
-                    };
-                    return (
-                      <TouchableOpacity
-                        key={key}
-                        style={{ padding: 20 }}
-                        onPress={() => this.setState({ place: test, isModalVisible: false })}
-                      >
-                        <Text style={styles.text}>{this.state.nearby[key].name}</Text>
-                        <Text style={styles.text}>{this.state.nearby[key].vicinity}</Text>
-                      </TouchableOpacity>
-                    );
-                  })}
-                </ScrollView>
-              </Modal>
+              { modal }
 
               <View>
                 <Text style={styles.header2}>4. Give it a rating:</Text>

@@ -140,7 +140,8 @@ const styles = StyleSheet.create({
     fontSize: 84
   },
   modal: {
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    alignItems: 'center'
   },
   placePicker: {
     width: (inputWidth / 2) - 10,
@@ -181,8 +182,7 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: 'center',
-    fontFamily: 'GillSans-Light',
-    color: '#fff'
+    fontFamily: 'GillSans-Light'
   },
   textBig: {
     textAlign: 'center',
