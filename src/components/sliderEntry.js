@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import { ParallaxImage } from 'react-native-snap-carousel';
-import styles from '../styles/SliderEntry.style';
+import styles from '../theme/SliderEntry.style';
 import IconSelector from './iconSelector';
 
 export default class SliderEntry extends Component {
@@ -40,12 +40,12 @@ export default class SliderEntry extends Component {
         const { data: { dish, place, rating }, even } = this.props;
         const iconImg = IconSelector(rating).iconImg;
 
-        const uppercaseTitle = dish ? (
+        const title = dish ? (
             <Text
               style={[styles.title, even ? styles.titleEven : {}]}
               numberOfLines={2}
             >
-                { dish.toUpperCase() }
+                { dish }
             </Text>
         ) : false;
 
@@ -76,7 +76,7 @@ export default class SliderEntry extends Component {
                     />
                 </View>
                 <View style={[styles.textContainer, even ? styles.textContainerEven : {}]}>
-                    { uppercaseTitle }
+                    { title }
                     <Text
                       style={[styles.subtitle, even ? styles.subtitleEven : {}]}
                       numberOfLines={2}

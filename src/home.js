@@ -7,7 +7,7 @@ import {
 	Dimensions
 } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
-import { sliderWidth, itemWidth } from './styles/SliderEntry.style';
+import { sliderWidth, itemWidth } from './theme/SliderEntry.style';
 import SliderEntry from './components/sliderEntry';
 import Button1 from './components/button1';
 import Button2 from './components/button2';
@@ -15,13 +15,12 @@ import styles from './theme/theme.js';
 import firebase from './config/firebase';
 
 const bgroundImg = require('./img/bground.jpg');
-const logo = require('./img/guido_outline_smile.png');
 
 const SLIDER_1_FIRST_ITEM = 1;
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
 
-class Home2 extends Component {
+class HomePage extends Component {
 
 	static navigationOptions = {
 			header: null,
@@ -64,7 +63,7 @@ class Home2 extends Component {
                 itemWidth={itemWidth}
                 hasParallaxImages
                 firstItem={SLIDER_1_FIRST_ITEM}
-                inactiveSlideScale={0.94}
+                inactiveSlideScale={0.74}
                 inactiveSlideOpacity={0.7}
                 // inactiveSlideShift={20}
                 containerCustomStyle={styles.slider}
@@ -132,4 +131,4 @@ class Home2 extends Component {
   }
 }
 
-export default Home2;
+export default HomePage;
