@@ -48,10 +48,10 @@ class Post extends Component {
       latitude: '',
       longitude: '',
       date: '',
-      isModalVisible: false,
+      isMapVisible: false,
       description: '',
       dishname: '',
-      nameFocused: false,
+      isNameFocused: false,
       image: '',
       image64: '',
       place: {
@@ -208,10 +208,8 @@ class Post extends Component {
     });
   }
 
-  toggleModal = () => this.setState({ isModalVisible: !this.state.isModalVisible });
-
   commentRender() {
-    if (this.state.nameFocused !== true) {
+    if (this.state.isNameFocused !== true) {
       return (
           <KeyboardAvoidingView
             behavior="position"
@@ -252,11 +250,38 @@ class Post extends Component {
       );
   }
 
-  modalRender() {
-    if (this.state.isModalVisible === true) {
+  toggleMap = () => this.setState({ isMapVisible: !this.state.isMapVisible });
+
+  mapRender() {
+    if (this.state.isMapVisible === true) {
+      const markersArray = [];
+      this.state.nearby.map(place =>
+        markersArray.push({
+          latitude: place.geometry.location.lat,
+          longitude: place.geometry.location.lng
+        })
+      );
+      console.log(markersArray);
+      const markers =
+      this.state.nearby.map(place => (
+        <MapView.Marker
+          key={place.id}
+          coordinate={{
+            latitude: place.geometry.location.lat,
+            longitude: place.geometry.location.lng
+          }}
+          title={place.name}
+          description={place.vicinity}
+          onCalloutPress={() => this.setState({
+            place: { name: place.name, address: place.vicinity },
+            isMapVisible: false
+          })}
+        />
+      ));
       return (
           <View style={styles.modal}>
           <MapView
+            ref={ref => { this.map = ref; }}
             style={{
               position: 'absolute',
               top: 0,
@@ -272,26 +297,13 @@ class Post extends Component {
             }}
             showsUserLocation
             showsPointsOfInterest={false}
+            onMapReady={() => this.map.fitToElements(true)}
           >
-            {this.state.nearby.map(marker => (
-              <MapView.Marker
-                key={marker.id}
-                coordinate={{
-                  latitude: marker.geometry.location.lat,
-                  longitude: marker.geometry.location.lng
-                }}
-                title={marker.name}
-                description={marker.vicinity}
-                onCalloutPress={() => this.setState({
-                  place: { name: marker.name, address: marker.vicinity },
-                  isModalVisible: false
-                })}
-              />
-            ))}
+            {markers}
           </MapView>
           <Button2
             text='Cancel'
-            onPress={() => this.setState({ isModalVisible: false })}
+            onPress={() => this.setState({ isMapVisible: false })}
           />
           </View>
       );
@@ -301,7 +313,7 @@ class Post extends Component {
   render() {
     const comment = this.commentRender();
     const place = this.placeRender();
-    const modal = this.modalRender();
+    const map = this.mapRender();
 
     let img;
     if (this.state.image === '') {
@@ -315,7 +327,7 @@ class Post extends Component {
 				style={[{ width: deviceWidth, height: deviceHeight },
 				styles.container]}
       >
-        { modal }
+        { map }
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View>
             <Header
@@ -330,8 +342,8 @@ class Post extends Component {
                 value={this.state.dishname}
                 style={styles.dishInput}
                 onChangeText={(text) => this.setState({ dishname: text })}
-                onFocus={() => this.setState({ nameFocused: true })}
-                onBlur={() => this.setState({ nameFocused: false })}
+                onFocus={() => this.setState({ isNameFocused: true })}
+                onBlur={() => this.setState({ isNameFocused: false })}
               />
 
                 <View style={styles.post23components}>
@@ -346,7 +358,7 @@ class Post extends Component {
                   </TouchableOpacity>
 
                   <TouchableOpacity
-                    onPress={this.toggleModal.bind(this)}
+                    onPress={this.toggleMap.bind(this)}
                   >
                   <View style={styles.placePicker} >
                     <Text style={styles.textBig}>3. Where?</Text>
