@@ -266,9 +266,6 @@ class Post extends Component {
           }}
           title={place.name}
           description={place.vicinity}
-          onPress={() => this.setState(
-            { guidoText: ' Touch the details to select the Restaurant.' }
-          )}
           onCalloutPress={() => this.setState({
             place: {
               name: place.name,
@@ -299,6 +296,12 @@ class Post extends Component {
             showsUserLocation
             showsPointsOfInterest={false}
             onMapReady={() => this.map.fitToElements(true)}
+            onPress={() => this.setState(
+              { guidoText: " Touch a marker to see Restaurant's details." }
+            )}
+            onMarkerPress={() => this.setState(
+              { guidoText: ' Touch the details to select the Restaurant.' }
+            )}
           >
             {markers}
           </MapView>
@@ -307,7 +310,9 @@ class Post extends Component {
           />
           <Button2
             text='Cancel'
-            onPress={() => this.setState({ isMapVisible: false })}
+            onPress={() => this.setState(
+              { isMapVisible: false, guidoText: " Touch a marker to see Restaurant's details." }
+            )}
           />
           </View>
       );
