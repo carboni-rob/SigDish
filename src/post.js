@@ -328,7 +328,7 @@ class Post extends Component {
     return (
       <ImageBackground
 				source={bgroundImg}
-				style={[{ width: deviceWidth, height: deviceHeight, justifyContent: 'space-around' },
+				style={[{ width: deviceWidth, height: deviceHeight },
 				styles.container]}
       >
         { map }
@@ -337,8 +337,7 @@ class Post extends Component {
             <Header
               title="New B!eat"
               left={this.back.bind(this)}
-              leftText={'Back'}
-              leftIcon={'back'}
+              leftText={'< Back'}
             />
             <View style={styles.center}>
               <TextInput

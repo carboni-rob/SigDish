@@ -38,7 +38,8 @@ class GuidoComic extends Component {
         style={{
           flex: 1,
           fontFamily: 'lobsterReg',
-          fontSize: 18
+          fontSize: 18,
+          textAlign: 'center'
         }}
       >
         {this.props.text}
