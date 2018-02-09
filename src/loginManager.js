@@ -2,6 +2,12 @@ import { Component } from 'react';
 import firebase from './config/firebase';
 
 class LoginManager extends Component {
+
+	static navigationOptions = {
+    header: null,
+    gesturesEnabled: false
+  };
+	
 	render() {
 		const state = this;
 		firebase.auth().onAuthStateChanged((user) => {

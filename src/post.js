@@ -26,6 +26,7 @@ import Header from './components/header';
 import Button1 from './components/button1';
 import Button2 from './components/button2';
 import RateIcon from './components/rateIcon';
+import GuidoComic from './components/guido_comic';
 import styles from './theme/theme.js';
 
 const deviceWidth = Dimensions.get('window').width;
@@ -60,6 +61,7 @@ class Post extends Component {
         lng: '',
         address: ''
       },
+      guidoText: " Touch a marker to see Restaurant's details.",
       rating: 0,
       rating1: false,
       rating2: false,
@@ -241,7 +243,7 @@ class Post extends Component {
         />
       );
     } return (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, justifyContent: 'space-around' }}>
           <Text style={[styles.text, { fontWeight: 'bold' }]}>
             {this.state.place.name}
           </Text>
@@ -254,14 +256,6 @@ class Post extends Component {
 
   mapRender() {
     if (this.state.isMapVisible === true) {
-      const markersArray = [];
-      this.state.nearby.map(place =>
-        markersArray.push({
-          latitude: place.geometry.location.lat,
-          longitude: place.geometry.location.lng
-        })
-      );
-      console.log(markersArray);
       const markers =
       this.state.nearby.map(place => (
         <MapView.Marker
@@ -272,8 +266,15 @@ class Post extends Component {
           }}
           title={place.name}
           description={place.vicinity}
+          onPress={() => this.setState(
+            { guidoText: ' Touch the details to select the Restaurant.' }
+          )}
           onCalloutPress={() => this.setState({
-            place: { name: place.name, address: place.vicinity },
+            place: {
+              name: place.name,
+              address: place.vicinity,
+              guidoText: "  Touch a marker to see Restaurant's details."
+            },
             isMapVisible: false
           })}
         />
@@ -301,6 +302,9 @@ class Post extends Component {
           >
             {markers}
           </MapView>
+          <GuidoComic
+            text={this.state.guidoText}
+          />
           <Button2
             text='Cancel'
             onPress={() => this.setState({ isMapVisible: false })}
@@ -324,7 +328,7 @@ class Post extends Component {
     return (
       <ImageBackground
 				source={bgroundImg}
-				style={[{ width: deviceWidth, height: deviceHeight },
+				style={[{ width: deviceWidth, height: deviceHeight, justifyContent: 'space-around' },
 				styles.container]}
       >
         { map }

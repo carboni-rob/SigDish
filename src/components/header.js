@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
 	View,
 	Text,
-	TouchableOpacity
+	TouchableOpacity,
+	Image
 } from 'react-native';
 
 import { Entypo, Ionicons } from '@expo/vector-icons';
@@ -104,6 +105,14 @@ class Header extends Component {
 							>
 								{this.props.rightText}
 							</Text>
+							<Image
+								source={require('../img/guido_outline_smile.png')}
+								style={{
+									height: 32,
+									width: 30,
+									resizeMode: 'contain'
+								}}
+							/>
 						</TouchableOpacity>
 					</View>
 				</View>
