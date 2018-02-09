@@ -10,7 +10,8 @@ import {
   Dimensions,
   ImageBackground,
   Keyboard,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  ScrollView
 } from 'react-native';
 import {
   ImagePicker,
@@ -50,6 +51,7 @@ class Post extends Component {
       longitude: '',
       date: '',
       isMapVisible: false,
+      isListVisible: false,
       description: '',
       dishname: '',
       isNameFocused: false,
@@ -307,6 +309,9 @@ class Post extends Component {
           </MapView>
           <GuidoComic
             text={this.state.guidoText}
+            onPress={() => this.setState(
+              { isMapVisible: false, isListVisible: true }
+            )}
           />
           <Button2
             text='Cancel'
@@ -319,10 +324,49 @@ class Post extends Component {
     } return null;
   }
 
+  listRender() {
+    if (this.state.isListVisible === true) {
+      const restaurants =
+      this.state.nearby.map(place => (
+        <TouchableOpacity
+          key={place.id}
+          style={{ margin: 10 }}
+          onPress={() => this.setState({
+            place: {
+              name: place.name,
+              address: place.vicinity
+            },
+            isListVisible: false
+          })}
+        >
+          <Text style={[styles.text, { fontWeight: 'bold' }]}>{place.name}</Text>
+          <Text style={styles.text}>{place.vicinity}</Text>
+        </TouchableOpacity>
+      ));
+      return (
+          <View
+            style={styles.modal}
+          >
+          <Text style={styles.textBig}>Select the Restaurant from the list</Text>
+            <ScrollView>
+              {restaurants}
+            </ScrollView>
+          <Button2
+            text='Cancel'
+            onPress={() => this.setState(
+              { isListVisible: false }
+            )}
+          />
+          </View>
+      );
+    } return null;
+  }
+
   render() {
     const comment = this.commentRender();
     const place = this.placeRender();
     const map = this.mapRender();
+    const list = this.listRender();
 
     let img;
     if (this.state.image === '') {
@@ -337,6 +381,7 @@ class Post extends Component {
 				styles.container]}
       >
         { map }
+        { list }
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View>
             <Header
@@ -347,6 +392,7 @@ class Post extends Component {
             <View style={styles.center}>
               <TextInput
                 placeholder='1. What did you eat?'
+                maxLength={30}
                 value={this.state.dishname}
                 style={styles.dishInput}
                 onChangeText={(text) => this.setState({ dishname: text })}

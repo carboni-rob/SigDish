@@ -4,7 +4,6 @@ import {
 	Text,
 	TextInput,
 	Alert,
-	TouchableOpacity,
 	Image,
 	ImageBackground,
 	Dimensions,
@@ -28,7 +27,8 @@ const logo = require('./img/guido_outline_smile.png');
 class Register extends Component {
 
 	static navigationOptions = {
-			header: null
+			header: null,
+			gesturesEnabled: false
 	};
 
 	constructor(props) {

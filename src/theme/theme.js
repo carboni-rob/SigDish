@@ -144,6 +144,7 @@ const styles = StyleSheet.create({
     zIndex: 100,
     width: deviceWidth,
     height: deviceHeight,
+    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'flex-end',
     padding: 20

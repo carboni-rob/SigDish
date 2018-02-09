@@ -29,7 +29,7 @@ function cacheFonts(fonts) {
   return fonts.map(font => Font.loadAsync(font));
 }
 
-export default class SigDish extends Component {
+export default class Beat extends Component {
 
   state = {
     isReady: false,

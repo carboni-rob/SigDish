@@ -117,7 +117,6 @@ class HomePage extends Component {
 					</View>
 					<View style={styles.container}>
             <StatusBar
-              translucent
               barStyle={'dark-content'}
             />
 						<Text style={[styles.logo, { fontSize: 22 }]}>
