@@ -20,6 +20,13 @@ export default class SliderEntry extends Component {
         parallaxProps: PropTypes.object
     };
 
+    constructor(props) {
+        super(props);
+        this.state = {
+          animating: false
+        };
+    }
+
     componentWillMount() {
       this.animatedValue = new Animated.Value(0);
     }
@@ -76,7 +83,7 @@ export default class SliderEntry extends Component {
         ) : false;
 
         return (
-            <Animated.View style={animatedStyle}>
+            <Animated.View style={this.state.animating ? animatedStyle : {}}>
             <TouchableOpacity
               activeOpacity={1}
               style={[styles.slideInnerContainer]}
