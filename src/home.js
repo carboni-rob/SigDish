@@ -103,6 +103,9 @@ class HomePage extends Component {
 				style={[{ width: deviceWidth, height: deviceHeight },
 				styles.container, styles.center]}
 			>
+				<StatusBar
+					barStyle={'dark-content'}
+				/>
 				<View style={{ justifyContent: 'space-between' }}>
 					<Text style={[styles.logo, { fontSize: 30 }]}>B!eat: the Food You Love</Text>
 					<View style={styles.center}>
@@ -116,9 +119,6 @@ class HomePage extends Component {
 						/>
 					</View>
 					<View style={styles.container}>
-            <StatusBar
-              barStyle={'dark-content'}
-            />
 						<Text style={[styles.logo, { fontSize: 22 }]}>
 							Your recent B!eats: Tap for details
 						</Text>

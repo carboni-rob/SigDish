@@ -347,7 +347,9 @@ class Post extends Component {
           <View
             style={styles.modal}
           >
-          <Text style={styles.textBig}>Select the Restaurant from the list</Text>
+          <Text style={[styles.textBig, { marginBottom: 10 }]}>
+            Select the Restaurant from the list
+          </Text>
             <ScrollView>
               {restaurants}
             </ScrollView>
