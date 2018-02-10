@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  Animated
+} from 'react-native';
 import PropTypes from 'prop-types';
 import { ParallaxImage } from 'react-native-snap-carousel';
 import styles from '../theme/SliderEntry.style';
@@ -13,6 +19,17 @@ export default class SliderEntry extends Component {
         parallax: PropTypes.bool,
         parallaxProps: PropTypes.object
     };
+
+    componentWillMount() {
+      this.animatedValue = new Animated.Value(0);
+    }
+    componentDidMount() {
+      Animated.timing(this.animatedValue, {
+        toValue: 1,
+        duration: 1500,
+        useNativeDriver: true
+      }).start();
+    }
 
 
     get image() {
@@ -39,6 +56,15 @@ export default class SliderEntry extends Component {
     render() {
         const { data: { dish, place, rating }, even } = this.props;
         const iconImg = IconSelector(rating).iconImg;
+        const interpolateRotation = this.animatedValue.interpolate({
+          inputRange: [0, 1],
+          outputRange: ['0deg', '180deg'],
+        });
+        const animatedStyle = {
+          transform: [
+            { rotateY: interpolateRotation }
+          ]
+        };
 
         const title = dish ? (
             <Text
@@ -50,6 +76,7 @@ export default class SliderEntry extends Component {
         ) : false;
 
         return (
+            <Animated.View style={animatedStyle}>
             <TouchableOpacity
               activeOpacity={1}
               style={[styles.slideInnerContainer]}
@@ -86,6 +113,7 @@ export default class SliderEntry extends Component {
                 </View>
               </View>
             </TouchableOpacity>
+            </Animated.View>
         );
     }
 }
