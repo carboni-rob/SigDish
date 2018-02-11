@@ -4,12 +4,17 @@ import {
   Text,
   Image,
   TouchableOpacity,
-  Animated
+  Animated,
+  Dimensions
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { ParallaxImage } from 'react-native-snap-carousel';
-import styles from '../theme/SliderEntry.style';
+import styles, { itemWidth, slideHeight } from '../theme/SliderEntry.style';
 import IconSelector from './iconSelector';
+
+const deviceWidth = Dimensions.get('window').width;
+const deviceHeight = Dimensions.get('window').height;
+const margin = 20;
 
 export default class SliderEntry extends Component {
 
@@ -23,17 +28,20 @@ export default class SliderEntry extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          animating: false
+          flippedBack: false,
+          flippedForw: false
         };
     }
 
     componentWillMount() {
       this.animatedValue = new Animated.Value(0);
     }
-    componentDidMount() {
+
+    animate() {
+      this.setState({ flippedBack: !this.state.flippedBack });
       Animated.timing(this.animatedValue, {
         toValue: 1,
-        duration: 1500,
+        duration: 500,
         useNativeDriver: true
       }).start();
     }
@@ -65,12 +73,20 @@ export default class SliderEntry extends Component {
         const iconImg = IconSelector(rating).iconImg;
         const interpolateRotation = this.animatedValue.interpolate({
           inputRange: [0, 1],
-          outputRange: ['0deg', '180deg'],
+          outputRange: ['0deg', '360deg'],
         });
-        const animatedStyle = {
+        const interpolateEnlargeWidth = this.animatedValue.interpolate({
+          inputRange: [0, 1],
+          outputRange: [itemWidth, deviceWidth - margin],
+        });
+        const rotation = {
           transform: [
             { rotateY: interpolateRotation }
-          ]
+          ],
+        };
+        const enlarge = {
+          width: interpolateEnlargeWidth,
+          height: deviceHeight - margin
         };
 
         const title = dish ? (
@@ -83,43 +99,45 @@ export default class SliderEntry extends Component {
         ) : false;
 
         return (
-            <Animated.View style={this.state.animating ? animatedStyle : {}}>
-            <TouchableOpacity
-              activeOpacity={1}
-              style={[styles.slideInnerContainer]}
-              onPress={() => { alert(`You've clicked '${dish}'`); }}
+            <Animated.View
+              style={this.state.flippedBack ? rotation : {}}
             >
-            <View style={styles.shadow}>
-                <View
-                  style={[
-                    styles.imageContainer,
-                    even ? styles.imageContainerEven : {}
-                  ]}
-                >
-                    { this.image }
-                    <View style={[styles.radiusMask, even ? styles.radiusMaskEven : {}]} />
-                    <Image
-                      source={iconImg}
-                      style={{
-                        width: 48,
-                        height: 48,
-                        position: 'absolute',
-                        top: 0,
-                        left: 0
-                      }}
-                    />
+              <TouchableOpacity
+                activeOpacity={1}
+                style={[styles.slideInnerContainer, this.state.flippedBack ? enlarge : {}]}
+                onPress={this.animate.bind(this)}
+              >
+              <View style={styles.shadow}>
+                  <View
+                    style={[
+                      styles.imageContainer,
+                      even ? styles.imageContainerEven : {}
+                    ]}
+                  >
+                      { this.image }
+                      <View style={[styles.radiusMask, even ? styles.radiusMaskEven : {}]} />
+                      <Image
+                        source={iconImg}
+                        style={{
+                          width: 48,
+                          height: 48,
+                          position: 'absolute',
+                          top: 0,
+                          left: 0
+                        }}
+                      />
+                  </View>
+                  <View style={[styles.textContainer, even ? styles.textContainerEven : {}]}>
+                      { title }
+                      <Text
+                        style={[styles.subtitle, even ? styles.subtitleEven : {}]}
+                        numberOfLines={2}
+                      >
+                          { place }
+                      </Text>
+                  </View>
                 </View>
-                <View style={[styles.textContainer, even ? styles.textContainerEven : {}]}>
-                    { title }
-                    <Text
-                      style={[styles.subtitle, even ? styles.subtitleEven : {}]}
-                      numberOfLines={2}
-                    >
-                        { place }
-                    </Text>
-                </View>
-              </View>
-            </TouchableOpacity>
+              </TouchableOpacity>
             </Animated.View>
         );
     }
