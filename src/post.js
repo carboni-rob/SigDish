@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  TouchableHighlight,
   TextInput,
   Image,
   Dimensions,
@@ -245,7 +246,7 @@ class Post extends Component {
         />
       );
     } return (
-        <View style={{ flex: 1, justifyContent: 'space-around' }}>
+        <View style={{ flex: 1, justifyContent: 'space-around', overflow: 'hidden' }}>
           <Text style={[styles.text, { fontWeight: 'bold' }]}>
             {this.state.place.name}
           </Text>
