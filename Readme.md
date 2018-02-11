@@ -2,7 +2,7 @@
 A React-Native Application with images and ratings of the dishes you ordered.
 
 CURRENT STATE OF THE PROJECT:
-Project is actually in alpha version, basically functional for testing purposes but non styled.
+Project is actually in beta version, partially functional for testing purposes.
 
 **FRONTEND:**
 Project is written in ReactNative, using Expo XDE.
