@@ -26,6 +26,18 @@ const colors = {
 };
 
 export default StyleSheet.create({
+    backContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        paddingTop: 20 - entryBorderRadius,
+        paddingBottom: 20,
+        paddingHorizontal: 16,
+        backgroundColor: 'white',
+        borderRadius: entryBorderRadius
+    },
+    backContainerEven: {
+        backgroundColor: colors.black
+    },
     slideInnerContainer: {
         width: itemWidth,
         height: slideHeight,

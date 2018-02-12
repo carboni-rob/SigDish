@@ -54,7 +54,7 @@ class HomePage extends Component {
 
   recents() {
       return (
-          <View style={styles.exampleContainer}>
+          <View style={styles.carouselContainer}>
               <Carousel
                 //ref={c => this.slider1Ref = c}
                 data={this.state.food}
@@ -68,11 +68,11 @@ class HomePage extends Component {
                 // inactiveSlideShift={20}
                 containerCustomStyle={styles.slider}
                 contentContainerCustomStyle={styles.sliderContentContainer}
-                loop
-                loopClonesPerSide={2}
-                autoplay
-                autoplayDelay={500}
-                autoplayInterval={3000}
+                //loop
+                //loopClonesPerSide={2}
+                //autoplay
+                //autoplayDelay={500}
+                //autoplayInterval={3000}
                 onSnapToItem={(index) => this.setState({ slider1ActiveSlide: index })}
               />
           </View>
