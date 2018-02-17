@@ -32,7 +32,8 @@ class HomePage extends Component {
       this.state = {
         slider1ActiveSlide: SLIDER_1_FIRST_ITEM,
 				food: [],
-				isLoading: true
+				isLoading: true,
+				scrollEnabled: true
       };
   }
 
@@ -52,11 +53,16 @@ class HomePage extends Component {
 		});
 	}
 
+	newPost() {
+		this.props.navigation.navigate('Post');
+	}
+
   recents() {
       return (
           <View style={styles.carouselContainer}>
               <Carousel
                 //ref={c => this.slider1Ref = c}
+								layout={'default'}
                 data={this.state.food}
                 renderItem={this.renderItemWithParallax}
                 sliderWidth={sliderWidth}
@@ -73,26 +79,23 @@ class HomePage extends Component {
                 //autoplay
                 //autoplayDelay={500}
                 //autoplayInterval={3000}
+								scrollEnabled={this.state.scrollEnabled}
                 onSnapToItem={(index) => this.setState({ slider1ActiveSlide: index })}
               />
           </View>
       );
   }
 
-	newPost() {
-		this.props.navigation.navigate('Post');
-	}
-
 	renderItemWithParallax({ item, index }, parallaxProps) {
-      return (
-          <SliderEntry
-            data={item}
-            even={(index + 1) % 2 === 0}
-            parallax
-            parallaxProps={parallaxProps}
-          />
-      );
-  }
+		return (
+			<SliderEntry
+				data={item}
+				even={(index + 1) % 2 === 0}
+				parallax
+				parallaxProps={parallaxProps}
+			/>
+		);
+	}
 
   render() {
 		const slider = this.recents();

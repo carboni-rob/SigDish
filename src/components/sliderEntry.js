@@ -94,6 +94,9 @@ export default class SliderEntry extends Component {
             activeOpacity={1}
             style={styles.slideInnerContainer}
             onPress={this.animate.bind(this)}
+            onScroll={() => this.setState({
+              frontShowing: false
+            })}
           >
             <View style={styles.shadow}>
                 <View
