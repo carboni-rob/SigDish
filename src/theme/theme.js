@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowOpacity: 0.7
   },
-  exampleContainer: {
+  carouselContainer: {
       paddingVertical: 10
   },
   foodPageContainer: {
