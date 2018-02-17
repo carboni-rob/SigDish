@@ -39,8 +39,6 @@ export default class SliderEntry extends Component {
     animate() {
       this.setState({ rotating: true });
       this.setState({ frontShowing: !this.state.frontShowing });
-      //this.rotationValue.setValue(0);
-      this.scaleValue.setValue(0);
       Animated.parallel([
         Animated.spring(this.scaleValue, {
           toValue: 1,
@@ -50,7 +48,10 @@ export default class SliderEntry extends Component {
           toValue: 1,
           duration: 300
         })
-      ]).start(() => { this.setState({ rotating: false }); });
+      ]).start(() => {
+        this.setState({ rotating: false });
+        this.rotationValue.setValue(0);
+      });
     }
 
 
@@ -91,7 +92,7 @@ export default class SliderEntry extends Component {
         return (
           <TouchableOpacity
             activeOpacity={1}
-            style={[styles.slideInnerContainer]}
+            style={styles.slideInnerContainer}
             onPress={this.animate.bind(this)}
           >
             <View style={styles.shadow}>
@@ -138,11 +139,15 @@ export default class SliderEntry extends Component {
           >
             "{description}"
           </Text>
-        ) : false;
+        ) : (<Text
+          style={[styles.subtitle, even ? styles.subtitleEven : {}]}
+        >
+          There are no comments on this dish.
+        </Text>);
         return (
           <TouchableOpacity
             activeOpacity={1}
-            style={[styles.slideInnerContainer]}
+            style={styles.slideInnerContainer}
             onPress={this.animate.bind(this)}
           >
             <View style={styles.shadow}>
@@ -157,7 +162,7 @@ export default class SliderEntry extends Component {
                 style={[styles.subtitle, even ? styles.subtitleEven : {}]}
                 numberOfLines={2}
               >
-                  { place }
+                  Tasted at { place } on { date }
               </Text>
               {comment}
             </View>
@@ -180,7 +185,6 @@ export default class SliderEntry extends Component {
         inputRange: [0, 1],
         outputRange: ['180deg', '0deg'],
       });
-
       const interpolateScale = this.scaleValue.interpolate({
           inputRange: [0, 1],
           outputRange: [1, 1.2],
